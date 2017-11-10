@@ -35,27 +35,24 @@ public class SpaceMap {
 			int randoY = rando.nextInt(dimensions);
 			
 			//Check if planet is already present, if not add it
-			if(isPointSafe(new Point2D(randoX, randoY))) {
+			if(getInhabitant(new Point2D(randoX, randoY)).equals(Inhabitant.EMPTY)) {
 				grid[randoX][randoY] = Inhabitant.PLANET;
 				i--;
 			}
 		}
 	}
 	
-	public void setPosition(Inhabitant type, Point2D location) {
+	public void setInhabitant(Inhabitant type, Point2D location) {
+		int x = (int)location.getX();
+		int y = (int)location.getY();
 		
+		grid[x][y] = type;
 	}
 	
-	//Check if obstruction is present
-	public boolean isPointSafe(Point2D point){
-		int x = (int)point.getX();
-		int y = (int)point.getY();
-
-		boolean isSafe = false;
-
-		if(x >= 0 && y >= 0 && x < grid.length && y < grid[0].length)
-			isSafe = grid[x][y].equals(Inhabitant.EMPTY);
-
-		return isSafe;
+	public Inhabitant getInhabitant(Point2D location) {
+		int x = (int)location.getX();
+		int y = (int)location.getY();
+		
+		return grid[x][y];
 	}
 }
