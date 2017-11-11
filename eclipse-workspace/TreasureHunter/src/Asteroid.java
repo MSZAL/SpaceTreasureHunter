@@ -25,7 +25,7 @@ public class Asteroid implements Debris {
 	}
 
 	public void move(int dx, int dy) {
-		position.add(dx, dy);
+		position = position.add(dx, dy);
 	}
 	
 	public String getImagePath() {

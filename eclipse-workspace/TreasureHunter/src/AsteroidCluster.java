@@ -27,7 +27,7 @@ public class AsteroidCluster implements Debris {
 	}
 
 	public void move(int dx, int dy) {
-		position.add(dx, dy);
+		position = position.add(dx, dy);
 		for(Debris asteroid : asteroids) {
 			asteroid.move(dx, dy);
 		}
