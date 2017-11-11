@@ -3,18 +3,18 @@ import java.io.File;
 import javafx.geometry.Point2D;
 
 public class Asteroid implements Debris {
-	private Point2D location;
+	private Point2D position;
 	int width;
 	int height;
 	
 	public Asteroid(Point2D start, int width, int height) {
-		location = start;
+		position = start;
 		this.width = width;
 		this.height = height;
 	}
 	
-	public Point2D getLocation() {
-		return location;
+	public Point2D getPosition() {
+		return position;
 	}
 	
 	public int getWidth() {
@@ -25,10 +25,10 @@ public class Asteroid implements Debris {
 	}
 
 	public void move(int dx, int dy) {
-		location.add(dx, dy);
+		position.add(dx, dy);
 	}
 	
-	public String getImage() {
+	public String getImagePath() {
 		//Get current system file path and append link to image
 		String filePath = new File("").getAbsolutePath();
 		filePath = filePath.concat("/img/asteroid.png");
