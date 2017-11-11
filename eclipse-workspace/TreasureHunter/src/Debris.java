@@ -7,6 +7,7 @@ public interface Debris {
 	int getHeight();
 
 	void move(int dx, int dy);
+	String getImage();
 
 	void addAsteroid(Debris asteroid);
 }
