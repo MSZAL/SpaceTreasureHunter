@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 
 public class Game extends Application {
 	
-	public final int GRID_SIZE		  = 500;
+	public static final int GRID_SIZE = 500;
 	public final int SCREEN_GRID_SIZE = 10;
 	
 	private SpaceMap spaceMap;
