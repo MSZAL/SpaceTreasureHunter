@@ -1,32 +1,15 @@
 import javafx.geometry.Point2D;
 
-public abstract class Ship {
+public interface Ship {	
+	public void moveUp();
 	
-	private Point2D position;
+	public void moveDown();
 	
-	public Ship(Point2D position) {
-		this.position = position;
-	}
+	public void moveLeft();
 	
-	public void moveUp() {
-		position = new Point2D(position.getX(),position.getY() - 1);
-	}
+	public void moveRight();
 	
-	public void moveDown() {
-		position = new Point2D(position.getX(),position.getY() + 1);
-	}
-	
-	public void moveLeft() {
-		position = new Point2D(position.getX() - 1,position.getY());
-	}
-	
-	public void moveRight() {
-		position = new Point2D(position.getX() + 1,position.getY());
-	}
-	
-	public Point2D getPosition() {
-		return position;
-	}
+	public Point2D getPosition();
 	
 	public abstract String getImagePath();
 }
