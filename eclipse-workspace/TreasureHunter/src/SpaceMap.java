@@ -17,6 +17,7 @@ public class SpaceMap {
 	
 	private SpaceMap() {}
 	
+	//Get singleton
 	public static SpaceMap getInstance() {
 		if(instance == null)
 			instance = new SpaceMap();
@@ -24,6 +25,8 @@ public class SpaceMap {
 		return instance;
 	}
 	
+	
+	//Create Inhabitant array and populate it with planets
 	public void buildMap(int dimensions, int planetCount) {
 		grid = new Inhabitant[dimensions][dimensions];
 		Arrays.fill(grid, Inhabitant.EMPTY); //Initialize to be empty
@@ -34,7 +37,7 @@ public class SpaceMap {
 			int randoX = rando.nextInt(dimensions);
 			int randoY = rando.nextInt(dimensions);
 			
-			//Check if planet is already present, if not add it
+			//Check if planet is already present, if not add it and decrement accumulator
 			if(getInhabitant(new Point2D(randoX, randoY)).equals(Inhabitant.EMPTY)) {
 				grid[randoX][randoY] = Inhabitant.PLANET;
 				i--;
@@ -42,6 +45,7 @@ public class SpaceMap {
 		}
 	}
 	
+	//Set Inhabitant at given square
 	public void setInhabitant(Inhabitant type, Point2D location) {
 		int x = (int)location.getX();
 		int y = (int)location.getY();
@@ -49,6 +53,7 @@ public class SpaceMap {
 		grid[x][y] = type;
 	}
 	
+	//Get Inhabitant at given square
 	public Inhabitant getInhabitant(Point2D location) {
 		int x = (int)location.getX();
 		int y = (int)location.getY();
