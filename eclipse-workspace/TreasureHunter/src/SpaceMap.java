@@ -55,12 +55,11 @@ public class SpaceMap {
 	
 	//Get Inhabitant at given square
 	public Inhabitant getInhabitant(Point2D location) {
-		if (location.getX() >= Game.GRID_SIZE || location.getX() < 0
-				|| location.getY() >= Game.GRID_SIZE || location.getY() < 0) {
-			return null;
-		}
 		int x = (int)location.getX();
 		int y = (int)location.getY();
+		
+		if (x >= Game.GRID_SIZE || x < 0 || y > Game.GRID_SIZE || y < 0)
+			return null;
 		
 		return grid[x][y];
 	}
