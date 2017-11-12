@@ -29,7 +29,9 @@ public class SpaceMap {
 	//Create Inhabitant array and populate it with planets
 	public void buildMap(int dimensions, int planetCount) {
 		grid = new Inhabitant[dimensions][dimensions];
-		Arrays.fill(grid, Inhabitant.EMPTY); //Initialize to be empty
+		for (int i = 0; i < dimensions; i++) {
+			Arrays.fill(grid[i], Inhabitant.EMPTY); //Initialize to be empty
+		}
 
 		//Add planets
 		for (int i = planetCount; i > 0;){
