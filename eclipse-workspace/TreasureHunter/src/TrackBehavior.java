@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 import javafx.geometry.Point2D;
 
 public class TrackBehavior implements Behavior {
@@ -16,7 +18,9 @@ public class TrackBehavior implements Behavior {
 		Point2D playerPosition = player.getPosition();
 		Point2D enemyPosition = enemy.getPosition();
 		
-		return null;
+		ArrayList<Point2D> path = ShortestPath.bfs(enemyPosition, playerPosition);
+		
+		return path.get(0);
 	}
 
 }
