@@ -58,7 +58,7 @@ public class SpaceMap {
 		int x = (int)location.getX();
 		int y = (int)location.getY();
 		
-		if (x >= Game.GRID_SIZE || x < 0 || y > Game.GRID_SIZE || y < 0)
+		if (x >= Game.GRID_SIZE || x < 0 || y >= Game.GRID_SIZE || y < 0)
 			return null;
 		
 		return grid[x][y];
