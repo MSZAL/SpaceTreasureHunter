@@ -22,7 +22,6 @@ public class PatrolBehavior implements Behavior {
 		forward = true;
 		
 		path = ShortestPath.bfs(position,randomPoint(position));
-		
 	}
 	
 	private Point2D randomPoint(Point2D location) {

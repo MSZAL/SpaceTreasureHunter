@@ -57,6 +57,9 @@ public class SpaceMap {
 	
 	//Get Inhabitant at given square
 	public Inhabitant getInhabitant(Point2D location) {
+		if (location == null)
+			return null;
+		
 		int x = (int)location.getX();
 		int y = (int)location.getY();
 		
