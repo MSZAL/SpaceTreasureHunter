@@ -22,6 +22,7 @@ public class PatrolBehavior implements Behavior {
 		forward = true;
 		
 		path = ShortestPath.bfs(position,randomPoint(position));
+		
 	}
 	
 	private Point2D randomPoint(Point2D location) {
@@ -31,6 +32,9 @@ public class PatrolBehavior implements Behavior {
 		while (spaceMap.getInhabitant(randomPoint) == null) {
 			int x = r.nextInt(MAX_RANGE * 2) - MAX_RANGE;
 			int y = r.nextInt(MAX_RANGE * 2) - MAX_RANGE;
+
+			
+			//System.out.print(x + "," + y);
 			
 			randomPoint = new Point2D(location.getX() + x, location.getY() + y);
 		}

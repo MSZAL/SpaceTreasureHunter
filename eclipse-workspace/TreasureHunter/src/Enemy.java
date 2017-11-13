@@ -23,7 +23,6 @@ public class Enemy implements Ship, Observer{
 	public void move() {
 		if (behavior != null) {
 			Point2D p = behavior.nextMove();
-			System.out.println(p);
 			
 			if (p.getX() > position.getX()) moveRight();
 			if (p.getX() < position.getX()) moveLeft();
