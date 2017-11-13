@@ -1,5 +1,3 @@
-import java.io.File;
-
 import java.util.Observable;
 import javafx.geometry.Point2D;
 
@@ -23,11 +21,6 @@ public class Player extends Observable implements Ship{
 	
 	public String getImagePath() {
 		return imagePath;
-		
-		//Get current system file path and append link to image
-//		String filePath = new File("").getAbsolutePath();
-//		filePath = filePath.concat("/img/player.png");
-//		return filePath;
 	}
 	
 	public void moveUp() {
