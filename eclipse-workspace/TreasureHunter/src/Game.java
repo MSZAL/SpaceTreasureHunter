@@ -51,7 +51,9 @@ public class Game extends Application {
 		}
 		
 		Player player = new Player(new Point2D (GRID_SIZE / 2, GRID_SIZE / 2), 1);
+		
 		Enemy enemy = new Enemy(player, new Point2D(30,30));
+		enemy.setBehavior(new TrackBehavior(enemy,player));
 		
 		Image playerImage = new Image(player.getImagePath(),50,50,true,true);
 		ImageView playerImageView = new ImageView(playerImage);
