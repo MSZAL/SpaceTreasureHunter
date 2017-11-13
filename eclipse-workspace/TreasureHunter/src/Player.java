@@ -6,6 +6,7 @@ import javafx.geometry.Point2D;
 public class Player extends Observable implements Ship{
 	int lives;
 	Point2D position;
+	String imagePath = "/spaceship.png";
 	
 	public Player(Point2D start, int lives) {
 		position = start;
@@ -21,10 +22,12 @@ public class Player extends Observable implements Ship{
 	}
 	
 	public String getImagePath() {
+		return imagePath;
+		
 		//Get current system file path and append link to image
-		String filePath = new File("").getAbsolutePath();
-		filePath = filePath.concat("/img/player.png");
-		return filePath;
+//		String filePath = new File("").getAbsolutePath();
+//		filePath = filePath.concat("/img/player.png");
+//		return filePath;
 	}
 	
 	public void moveUp() {

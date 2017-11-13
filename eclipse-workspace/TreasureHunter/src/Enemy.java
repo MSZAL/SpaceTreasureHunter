@@ -9,7 +9,7 @@ public class Enemy implements Ship, Observer{
 	
 	Behavior behavior;
 	Point2D position;
-	String imagePath = "";
+	String imagePath = "/ufo.png";
 	
 	public Enemy (Player player, Point2D position) {
 		player.addObserver(this);

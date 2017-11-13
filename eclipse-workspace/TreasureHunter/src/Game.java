@@ -2,6 +2,8 @@ import javafx.geometry.Point2D;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -48,6 +50,23 @@ public class Game extends Application {
 			}
 		}
 		
+		Player player = new Player(new Point2D (GRID_SIZE / 2, GRID_SIZE / 2), 1);
+		Enemy enemy = new Enemy(player, new Point2D(30,30));
+		
+		Image playerImage = new Image(player.getImagePath(),50,50,true,true);
+		ImageView playerImageView = new ImageView(playerImage);
+		
+		Image enemyImage = new Image(enemy.getImagePath(),50,50,true,true);
+		ImageView enemyImageView = new ImageView(enemyImage);
+		
+		playerImageView.setX(player.getPosition().getX() * SCALE);
+		playerImageView.setY(player.getPosition().getY() * SCALE);
+		
+		enemyImageView.setX(enemy.getPosition().getX() * SCALE);
+		enemyImageView.setY(enemy.getPosition().getY() * SCALE);
+		
+		root.getChildren().add(playerImageView);
+		root.getChildren().add(enemyImageView);	
 		
 		primaryStage.setTitle("Space Treasure Hunter");
 		primaryStage.setScene(scene);
@@ -57,8 +76,27 @@ public class Game extends Application {
 
 			@Override
 			public void handle(KeyEvent event) {
-				// TODO Auto-generated method stub
+				switch(event.getCode()) {
+				case RIGHT:
+					player.moveRight();
+					break;
+				case LEFT:
+					player.moveLeft();
+					break;
+				case UP:
+					player.moveUp();
+					break;
+				case DOWN:
+					player.moveDown();
+					break;
+				default:
+					break;
+				}
+				playerImageView.setX(player.getPosition().getX() * SCALE);
+				playerImageView.setY(player.getPosition().getY() * SCALE);
 				
+				enemyImageView.setX(enemy.getPosition().getX() * SCALE);
+				enemyImageView.setY(enemy.getPosition().getY() * SCALE);
 			}
 			
 		};
