@@ -1,4 +1,5 @@
 import javafx.geometry.Point2D;
+
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -117,6 +118,48 @@ public class Game extends Application {
 		
 		scene.setOnKeyPressed(keyHandler);
 		
+		int starter = (int) Math.floor(Math.random() * spaceMap.getDimensions());
+		Point2D asteroidSpot = new Point2D(0, starter);
+		spaceMap.setInhabitant(Inhabitant.ASTEROID, asteroidSpot);
+		Debris asteroid = new Asteroid(new Point2D(starter, 0), Direction.DOWN);
+		
+		Image picture = new Image(asteroid.getImagePath(), 1 * SCALE, 1 * SCALE, true, true);
+		ImageView asteroidImage = new ImageView(picture);
+		asteroidImage.setX(asteroid.getPosition().getX() * SCALE);
+		asteroidImage.setY(asteroid.getPosition().getY() * SCALE);
+		
+		root.getChildren().add(asteroidImage);
+		
+		//Create thread for asteroids
+		Thread thread = new Thread("AsteroidThread") {
+			public void run(){
+				while(true) {
+					try {
+						Thread.sleep(100);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					
+				   
+				   spaceMap.setInhabitant(Inhabitant.EMPTY, asteroid.getPosition());
+				   asteroid.move();
+				   
+				   if(spaceMap.isOnMap(asteroid.getPosition())) {
+					   spaceMap.setInhabitant(Inhabitant.ASTEROID, asteroid.getPosition());
+					   
+					   asteroidImage.setX(asteroid.getPosition().getX() * SCALE);
+					   asteroidImage.setY(asteroid.getPosition().getY() * SCALE);
+				   } else {
+					   int randomX = (int) Math.floor(Math.random() * spaceMap.getDimensions());
+					   Point2D asteroidSpot = new Point2D(randomX, 0);
+					   asteroid.setPosition(asteroidSpot);
+					   asteroidImage.setX(asteroidSpot.getX());
+					   asteroidImage.setY(asteroidSpot.getY());
+				   }
+		        }
+			}
+		};
+		thread.start();
 	}
 	
 	public static void main(String[] args) {

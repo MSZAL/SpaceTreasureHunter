@@ -8,15 +8,21 @@ public class AsteroidCluster implements Debris {
 	List<Debris> asteroids = new LinkedList<Debris>();
 	int width;
 	int height;
+	Direction direction;
 	
-	public AsteroidCluster(Point2D start, int width, int height) {
+	public AsteroidCluster(Point2D start, Direction direction, int width, int height) {
 		position = start;
 		this.width = width;
 		this.height = height;
+		this.direction = direction;
 	}
 	
 	public Point2D getPosition() {
 		return position;
+	}
+	
+	public void setPosition(Point2D position) {
+		this.position = position;
 	}
 	
 	public int getWidth() {
@@ -26,14 +32,27 @@ public class AsteroidCluster implements Debris {
 		return height;
 	}
 
-	public void move(int dx, int dy) {
-		position = position.add(dx, dy);
+	public void move() {
+		if(direction.equals(Direction.UP))
+			position = new Point2D(position.getX(), position.getY() - 1);	
+		else if (direction.equals(Direction.DOWN))
+			position = new Point2D(position.getX(), position.getY() + 1);
+		else if(direction.equals(Direction.LEFT))
+			position = new Point2D(position.getX() - 1, position.getY());
+		else if(direction.equals(Direction.RIGHT))
+			position = new Point2D(position.getX() + 1, position.getY());
+			
 		for(Debris asteroid : asteroids) {
-			asteroid.move(dx, dy);
+			asteroid.move();
 		}
+	}
+	
+	public void setDirection(Direction direction) {
+		this.direction = direction;
 	}
 
 	public void addAsteroid(Debris asteroid) {
+		asteroid.setDirection(direction);
 		asteroids.add(asteroid);
 	}
 	

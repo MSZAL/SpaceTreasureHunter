@@ -17,6 +17,8 @@ public class SpaceMap {
 	
 	private SpaceMap() {}
 	
+	int dimensions = 0;
+	
 	//Get singleton
 	public static SpaceMap getInstance() {
 		if(instance == null)
@@ -28,6 +30,7 @@ public class SpaceMap {
 	
 	//Create Inhabitant array and populate it with planets
 	public void buildMap(int dimensions, int planetCount) {
+		this.dimensions = dimensions;
 		grid = new Inhabitant[dimensions][dimensions];
 		for (int i = 0; i < dimensions; i++) {
 			Arrays.fill(grid[i], Inhabitant.EMPTY); //Initialize to be empty
@@ -49,10 +52,12 @@ public class SpaceMap {
 	
 	//Set Inhabitant at given square
 	public void setInhabitant(Inhabitant type, Point2D location) {
-		int x = (int)location.getX();
-		int y = (int)location.getY();
+		if(isOnMap(location)) {
+			int x = (int)location.getX();
+			int y = (int)location.getY();
 		
-		grid[x][y] = type;
+			grid[x][y] = type;
+		}
 	}
 	
 	//Get Inhabitant at given square
@@ -67,5 +72,13 @@ public class SpaceMap {
 			return null;
 		
 		return grid[x][y];
+	}
+	
+	public boolean isOnMap(Point2D tester) {
+		return !(tester.getX() < 0 || tester.getX() >= dimensions || tester.getY() < 0 || tester.getY() >= dimensions);
+	}
+	
+	public int getDimensions() {
+		return dimensions;
 	}
 }
