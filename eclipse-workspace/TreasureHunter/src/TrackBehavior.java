@@ -6,10 +6,12 @@ public class TrackBehavior implements Behavior {
 
 	Ship enemy;
 	Ship player;
+	SpaceMap spaceMap;
 	
 	public TrackBehavior(Ship enemy, Ship player) {
 		this.enemy = enemy;
 		this.player = player;
+		this.spaceMap = SpaceMap.getInstance();
 	}
 	//Returns the next closest move to Spaceship
 	
@@ -17,11 +19,15 @@ public class TrackBehavior implements Behavior {
 	public Point2D nextMove() {
 		
 		Point2D playerPosition = player.getPosition();
-		Point2D enemyPosition = enemy.getPosition();
+		Point2D enemyPosition = enemy.getPosition(); 
+		
+		if (playerPosition.equals(spaceMap.getTreasure())) return null;
 		
 		//Does a BFS search and establishes path for alien. Alien takes next move in that array
 		
 		ArrayList<Point2D> path = ShortestPath.bfs(enemyPosition, playerPosition);
+		
+		
 		int i = 1;
 		
 		if (enemyPosition.getY() == playerPosition.getY() && enemyPosition.getX() != playerPosition.getX()) {

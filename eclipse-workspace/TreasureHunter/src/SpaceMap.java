@@ -14,6 +14,7 @@ enum Inhabitant{
 public class SpaceMap {
 	private static SpaceMap instance;
 	private Inhabitant[][] grid;
+	private Point2D treasure;
 	
 	private SpaceMap() {}
 	
@@ -35,10 +36,16 @@ public class SpaceMap {
 		for (int i = 0; i < dimensions; i++) {
 			Arrays.fill(grid[i], Inhabitant.EMPTY); //Initialize to be empty
 		}
+		
+		Random rando = new Random();
+		int randX = rando.nextInt(dimensions);
+		int randY = rando.nextInt(dimensions);
+		this.treasure = new Point2D(randX,randY);
+		grid[randX][randY] = Inhabitant.TREASURE;
+		
 
 		//Add planets
 		for (int i = planetCount; i > 0;){
-			Random rando = new Random();
 			int randoX = rando.nextInt(dimensions);
 			int randoY = rando.nextInt(dimensions);
 			
@@ -76,6 +83,10 @@ public class SpaceMap {
 	
 	public boolean isOnMap(Point2D tester) {
 		return !(tester.getX() < 0 || tester.getX() >= dimensions || tester.getY() < 0 || tester.getY() >= dimensions);
+	}
+	
+	public Point2D getTreasure() {
+		return treasure;
 	}
 	
 	public int getDimensions() {

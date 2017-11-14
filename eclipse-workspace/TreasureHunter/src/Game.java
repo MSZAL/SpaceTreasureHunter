@@ -20,6 +20,7 @@ public class Game extends Application {
 	
 	public static final int PLANET_COUNT = 20;
 	
+	
 	private final int DIMENSION = 100;
 	private final int SCALE = 10;
 	
@@ -49,6 +50,9 @@ public class Game extends Application {
 				case PLANET:
 					rect.setFill(Color.BLUE);
 					break;
+				case TREASURE:
+					rect.setFill(Color.RED);
+					break;
 				default:
 					rect.setFill(Color.GREEN); //Just denotes if invalid value is popping up
 					break;
@@ -67,13 +71,13 @@ public class Game extends Application {
 		spaceMap.setInhabitant(Inhabitant.ALIEN, enemy.getPosition());
 		spaceMap.setInhabitant(Inhabitant.ALIEN, enemy2.getPosition());
 		
-		Image playerImage = new Image(player.getImagePath(),50,50,true,true);
+		Image playerImage = new Image(player.getImagePath(),SCALE,SCALE,true,true);
 		ImageView playerImageView = new ImageView(playerImage);
 		
-		Image enemyImage = new Image(enemy.getImagePath(),50,50,true,true);
+		Image enemyImage = new Image(enemy.getImagePath(),SCALE,SCALE,true,true);
 		ImageView enemyImageView = new ImageView(enemyImage);
 		
-		Image enemyImage2 = new Image(enemy2.getImagePath(),50,50,true,true);
+		Image enemyImage2 = new Image(enemy2.getImagePath(),SCALE,SCALE,true,true);
 		ImageView enemyImageView2 = new ImageView(enemyImage2);
 		
 		playerImageView.setX(player.getPosition().getX() * SCALE);
@@ -169,7 +173,6 @@ public class Game extends Application {
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
-					
 				   //Move asteroid
 				   spaceMap.setInhabitant(Inhabitant.EMPTY, asteroid.getPosition());
 				   asteroid.move();
