@@ -22,7 +22,7 @@ public class Game extends Application {
 	
 	
 	private final int DIMENSION = 50;
-	private final int SCALE = 15;
+	private final int SCALE = 25;
 	
 	private SpaceMap spaceMap;
 	
