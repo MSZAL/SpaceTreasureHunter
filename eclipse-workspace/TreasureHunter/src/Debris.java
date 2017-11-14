@@ -18,7 +18,7 @@ public interface Debris {
 	
 	void setDirection(Direction direction);
 
-	ImageView getImageView();
+	ImageView getImage();
 	
 	List<Debris> getAsteroids();
 

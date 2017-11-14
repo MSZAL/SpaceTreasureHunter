@@ -55,7 +55,7 @@ public class Asteroid implements Debris {
 		return null;
 	}
 	
-	public ImageView getImageView() {
+	public ImageView getImage() {
 		return image;
 	}
 

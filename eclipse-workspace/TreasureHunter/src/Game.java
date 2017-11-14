@@ -139,9 +139,9 @@ public class Game extends Application {
 		asteroidField.addAsteroid(asteroid1);
 		asteroidField.addAsteroid(asteroid2);
 		
-		root.getChildren().add(asteroid.getImageView());
-		root.getChildren().add(asteroid1.getImageView());
-		root.getChildren().add(asteroid2.getImageView());
+		root.getChildren().add(asteroid.getImage());
+		root.getChildren().add(asteroid1.getImage());
+		root.getChildren().add(asteroid2.getImage());
 		
 		//Create thread for asteroids
 		Thread thread = new Thread("AsteroidThread") {

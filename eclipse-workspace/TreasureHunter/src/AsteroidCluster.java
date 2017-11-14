@@ -50,7 +50,7 @@ public class AsteroidCluster implements Debris {
 		return asteroids;
 	}
 	
-	public ImageView getImageView() {
+	public ImageView getImage() {
 		return null; //No image for clusters
 	}
 }
