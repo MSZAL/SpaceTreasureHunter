@@ -7,7 +7,8 @@ enum Inhabitant{
 	PLANET, 
 	ASTEROID,
 	ALIEN,
-	TREASURE
+	TREASURE,
+	PLAYER
 }
 
 public class SpaceMap {
