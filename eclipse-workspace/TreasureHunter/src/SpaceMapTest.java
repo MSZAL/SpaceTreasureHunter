@@ -50,7 +50,7 @@ public class SpaceMapTest {
 		for(int i = 0; i < map.getDimensions(); i++) {
 			for (int j = 0; j < map.getDimensions(); j++) {
 				Point2D mapSpot = new Point2D(i, j);
-				assertEquals(map.getInhabitant(mapSpot), Inhabitant.EMPTY);
+				assertTrue(map.getInhabitant(mapSpot).equals(Inhabitant.EMPTY) || map.getInhabitant(mapSpot).equals(Inhabitant.TREASURE));
 			}
 		}
 	}
