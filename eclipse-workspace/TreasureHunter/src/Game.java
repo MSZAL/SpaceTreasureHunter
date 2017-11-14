@@ -1,8 +1,9 @@
 import javafx.geometry.Point2D;
-
+import javafx.geometry.Pos;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -10,6 +11,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class Game extends Application {
@@ -23,10 +25,14 @@ public class Game extends Application {
 	
 	private SpaceMap spaceMap;
 	
+	private Player player;
+	private Scene scene;
+	Pane root;
+	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		Pane root = new AnchorPane();
-		Scene scene = new Scene(root,DIMENSION*SCALE,DIMENSION*SCALE);
+		root = new AnchorPane();
+		scene = new Scene(root,DIMENSION*SCALE,DIMENSION*SCALE);
 		
 		spaceMap = SpaceMap.getInstance();
 		spaceMap.buildMap(GRID_SIZE, PLANET_COUNT);
@@ -51,12 +57,15 @@ public class Game extends Application {
 			}
 		}
 		
-		Player player = new Player(new Point2D (GRID_SIZE / 2, GRID_SIZE / 2), 1);
+		player = new Player(new Point2D (GRID_SIZE / 2, GRID_SIZE / 2), 1);
 		
 		Enemy enemy = new Enemy(player, new Point2D(30,30));
 		Enemy enemy2 = new Enemy(player, new Point2D(70,70));
 		enemy.setBehavior(new TrackBehavior(enemy,player));
 		enemy2.setBehavior(new PatrolBehavior(enemy2.getPosition()));
+		
+		spaceMap.setInhabitant(Inhabitant.ALIEN, enemy.getPosition());
+		spaceMap.setInhabitant(Inhabitant.ALIEN, enemy2.getPosition());
 		
 		Image playerImage = new Image(player.getImagePath(),50,50,true,true);
 		ImageView playerImageView = new ImageView(playerImage);
@@ -88,6 +97,9 @@ public class Game extends Application {
 
 			@Override
 			public void handle(KeyEvent event) {
+				spaceMap.setInhabitant(Inhabitant.EMPTY, enemy.getPosition());
+				spaceMap.setInhabitant(Inhabitant.EMPTY, enemy2.getPosition());
+				
 				switch(event.getCode()) {
 				case RIGHT:
 					player.moveRight();
@@ -112,6 +124,11 @@ public class Game extends Application {
 				
 				enemyImageView2.setX(enemy2.getPosition().getX() * SCALE);
 				enemyImageView2.setY(enemy2.getPosition().getY() * SCALE);
+				
+				spaceMap.setInhabitant(Inhabitant.ALIEN, enemy.getPosition());
+				spaceMap.setInhabitant(Inhabitant.ALIEN, enemy2.getPosition());
+				
+				checkPlayer();
 			}
 			
 		};
@@ -191,6 +208,45 @@ public class Game extends Application {
 			}
 		};
 		thread.start();
+	}
+	
+	private void checkPlayer(){
+		if(spaceMap.getInhabitant(player.getPosition()).equals(Inhabitant.ALIEN) || spaceMap.getInhabitant(player.getPosition()).equals(Inhabitant.ASTEROID)) {
+			lose();
+		}
+	}
+	
+	private void lose() {
+		//Put black over the screen
+		Rectangle rect = new Rectangle(0, 0, scene.getWidth(), scene.getHeight());
+		rect.setStroke(Color.BLACK);
+		rect.setFill(Color.BLACK);
+
+		root.getChildren().add(rect);// Add to the node tree in the pane
+
+		//Draw You Lose label
+		Label loseLabel = new Label("You Lose");
+		loseLabel.setFont(new Font("Arial", 30));
+		loseLabel.setTextFill(Color.WHITE);
+		loseLabel.setMaxWidth(Double.MAX_VALUE);
+		AnchorPane.setLeftAnchor(loseLabel, 0.0);
+		AnchorPane.setRightAnchor(loseLabel, 0.0);
+		AnchorPane.setTopAnchor(loseLabel, scene.getHeight() / 3.0);
+		loseLabel.setAlignment(Pos.CENTER);
+
+		//Draw the egg-them-on label
+		Label eggLabel = new Label("Try Again Some Other Time");
+		eggLabel.setFont(new Font("Arial", 20));
+		eggLabel.setTextFill(Color.WHITE);
+		eggLabel.setMaxWidth(Double.MAX_VALUE);
+		AnchorPane.setLeftAnchor(eggLabel, 0.0);
+		AnchorPane.setRightAnchor(eggLabel, 0.0);
+		AnchorPane.setTopAnchor(eggLabel, scene.getHeight() / 2.0);
+		eggLabel.setAlignment(Pos.CENTER);
+
+		//Add to window
+		root.getChildren().add(loseLabel);
+		root.getChildren().add(eggLabel);
 	}
 	
 	public static void main(String[] args) {

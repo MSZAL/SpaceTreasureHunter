@@ -5,8 +5,7 @@ import java.util.Random;
 enum Inhabitant{
 	EMPTY, 
 	PLANET, 
-	ASTEROID, 
-	PLAYER, 
+	ASTEROID,
 	ALIEN,
 	TREASURE
 }
