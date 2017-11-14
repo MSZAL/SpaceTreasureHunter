@@ -211,12 +211,15 @@ public class Game extends Application {
 	}
 	
 	private void checkPlayer(){
-		if(spaceMap.getInhabitant(player.getPosition()).equals(Inhabitant.ALIEN) || spaceMap.getInhabitant(player.getPosition()).equals(Inhabitant.ASTEROID)) {
-			lose();
+		Inhabitant inhabitant = spaceMap.getInhabitant(player.getPosition());
+		if(inhabitant.equals(Inhabitant.ALIEN) || inhabitant.equals(Inhabitant.ASTEROID)) {
+			finishDialogue("You Lose", "Try again some other time...");
+		} else if(inhabitant.equals(Inhabitant.TREASURE)) {
+			finishDialogue("You Win!", "Congratulations on finding the space treasure!");
 		}
 	}
 	
-	private void lose() {
+	private void finishDialogue(String title, String subtitle) {
 		//Put black over the screen
 		Rectangle rect = new Rectangle(0, 0, scene.getWidth(), scene.getHeight());
 		rect.setStroke(Color.BLACK);
@@ -225,7 +228,7 @@ public class Game extends Application {
 		root.getChildren().add(rect);// Add to the node tree in the pane
 
 		//Draw You Lose label
-		Label loseLabel = new Label("You Lose");
+		Label loseLabel = new Label(title);
 		loseLabel.setFont(new Font("Arial", 30));
 		loseLabel.setTextFill(Color.WHITE);
 		loseLabel.setMaxWidth(Double.MAX_VALUE);
@@ -235,7 +238,7 @@ public class Game extends Application {
 		loseLabel.setAlignment(Pos.CENTER);
 
 		//Draw the egg-them-on label
-		Label eggLabel = new Label("Try Again Some Other Time");
+		Label eggLabel = new Label(subtitle);
 		eggLabel.setFont(new Font("Arial", 20));
 		eggLabel.setTextFill(Color.WHITE);
 		eggLabel.setMaxWidth(Double.MAX_VALUE);
