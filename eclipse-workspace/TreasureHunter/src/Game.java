@@ -16,13 +16,13 @@ import javafx.stage.Stage;
 
 public class Game extends Application {
 	
-	public static final int GRID_SIZE = 100;
+	public static final int GRID_SIZE = 50;
 	
 	public static final int PLANET_COUNT = 20;
 	
 	
-	private final int DIMENSION = 100;
-	private final int SCALE = 10;
+	private final int DIMENSION = 50;
+	private final int SCALE = 15;
 	
 	private SpaceMap spaceMap;
 	
@@ -64,7 +64,7 @@ public class Game extends Application {
 		player = new Player(new Point2D (GRID_SIZE / 2, GRID_SIZE / 2), 1);
 		
 		Enemy enemy = new Enemy(player, new Point2D(30,30));
-		Enemy enemy2 = new Enemy(player, new Point2D(70,70));
+		Enemy enemy2 = new Enemy(player, new Point2D(40,30));
 		enemy.setBehavior(new TrackBehavior(enemy,player));
 		enemy2.setBehavior(new PatrolBehavior(enemy2.getPosition()));
 		

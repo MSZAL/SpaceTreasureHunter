@@ -8,7 +8,7 @@ import javafx.geometry.Point2D;
 
 public class TrackBehaviorTest {
 
-	//Player is on below Alien  => Alien moves down
+	//Player is below Alien  => Alien moves down
 	
 	@Test
 	public void testMoveDownSimulation () {
