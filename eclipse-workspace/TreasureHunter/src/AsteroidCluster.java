@@ -2,18 +2,15 @@ import java.util.List;
 import java.util.LinkedList;
 
 import javafx.geometry.Point2D;
+import javafx.scene.image.ImageView;
 
 public class AsteroidCluster implements Debris {
 	private Point2D position;
 	List<Debris> asteroids = new LinkedList<Debris>();
-	int width;
-	int height;
 	Direction direction;
 	
-	public AsteroidCluster(Point2D start, Direction direction, int width, int height) {
+	public AsteroidCluster(Point2D start, Direction direction) {
 		position = start;
-		this.width = width;
-		this.height = height;
 		this.direction = direction;
 	}
 	
@@ -23,13 +20,6 @@ public class AsteroidCluster implements Debris {
 	
 	public void setPosition(Point2D position) {
 		this.position = position;
-	}
-	
-	public int getWidth() {
-		return width;
-	}
-	public int getHeight() {
-		return height;
 	}
 
 	public void move() {
@@ -56,7 +46,11 @@ public class AsteroidCluster implements Debris {
 		asteroids.add(asteroid);
 	}
 	
-	public String getImagePath() {
-		return ""; //No image for clusters
+	public List<Debris> getAsteroids() {
+		return asteroids;
+	}
+	
+	public ImageView getImageView() {
+		return null; //No image for clusters
 	}
 }
