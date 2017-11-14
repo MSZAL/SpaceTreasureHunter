@@ -52,7 +52,7 @@ public class SpaceMap {
 	
 	//Set Inhabitant at given square
 	public void setInhabitant(Inhabitant type, Point2D location) {
-		if (location == null)
+		if (location == null || type == null)
 			return;
 		
 		if(isOnMap(location)) {
