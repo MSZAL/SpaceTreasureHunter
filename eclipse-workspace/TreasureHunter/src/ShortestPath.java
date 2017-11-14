@@ -21,10 +21,10 @@ public class ShortestPath {
 		Inhabitant ic = spaceMap.getInhabitant(c);
 		Inhabitant id = spaceMap.getInhabitant(d);
 				
-		if (ia == Inhabitant.EMPTY || ia == Inhabitant.PLAYER ) adjList.add(a);
-		if (ib == Inhabitant.EMPTY || ib == Inhabitant.PLAYER ) adjList.add(b);
-		if (ic == Inhabitant.EMPTY || ic == Inhabitant.PLAYER ) adjList.add(c);
-		if (id == Inhabitant.EMPTY || id == Inhabitant.PLAYER ) adjList.add(d);
+		if (ia == Inhabitant.EMPTY) adjList.add(a);
+		if (ib == Inhabitant.EMPTY) adjList.add(b);
+		if (ic == Inhabitant.EMPTY) adjList.add(c);
+		if (id == Inhabitant.EMPTY) adjList.add(d);
 		
 		return adjList;
 	}

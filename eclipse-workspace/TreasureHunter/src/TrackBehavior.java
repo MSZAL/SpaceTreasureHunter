@@ -11,6 +11,7 @@ public class TrackBehavior implements Behavior {
 		this.enemy = enemy;
 		this.player = player;
 	}
+	//Returns the next closest move to Spaceship
 	
 	@Override
 	public Point2D nextMove() {
@@ -18,6 +19,7 @@ public class TrackBehavior implements Behavior {
 		Point2D playerPosition = player.getPosition();
 		Point2D enemyPosition = enemy.getPosition();
 		
+		//Does a BFS search and establishes path for alien. Alien takes next move in that array
 		
 		ArrayList<Point2D> path = ShortestPath.bfs(enemyPosition, playerPosition);
 		int i = 1;
