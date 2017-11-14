@@ -59,6 +59,9 @@ public class SpaceMap {
 	
 	//Set Inhabitant at given square
 	public void setInhabitant(Inhabitant type, Point2D location) {
+		if (location == null || type == null)
+			return;
+		
 		if(isOnMap(location)) {
 			int x = (int)location.getX();
 			int y = (int)location.getY();
@@ -75,14 +78,17 @@ public class SpaceMap {
 		int x = (int)location.getX();
 		int y = (int)location.getY();
 		
-		if (x >= Game.GRID_SIZE || x < 0 || y >= Game.GRID_SIZE || y < 0)
+		if (!isOnMap(location))
 			return null;
 		
 		return grid[x][y];
 	}
 	
 	public boolean isOnMap(Point2D tester) {
-		return !(tester.getX() < 0 || tester.getX() >= dimensions || tester.getY() < 0 || tester.getY() >= dimensions);
+		int x = (int)tester.getX();
+		int y = (int)tester.getY();
+		
+		return !(x >= dimensions || x < 0 || y >= dimensions || y < 0);
 	}
 	
 	public Point2D getTreasure() {
