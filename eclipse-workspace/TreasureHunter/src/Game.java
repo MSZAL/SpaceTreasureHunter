@@ -16,12 +16,12 @@ import javafx.stage.Stage;
 
 public class Game extends Application {
 	
-	public static final int GRID_SIZE = 50;
+	public static final int GRID_SIZE = 25;
 	
 	public static final int PLANET_COUNT = 10;
 	
 	
-	private final int DIMENSION = 50;
+	private final int DIMENSION = 25;
 	private final int SCALE = 25;
 	
 	private SpaceMap spaceMap;
@@ -61,7 +61,7 @@ public class Game extends Application {
 			}
 		}
 		
-		player = new Player(new Point2D (0,0), 1);
+		player = new Player(new Point2D (10,0), 1);
 		
 		Enemy enemy = new Enemy(player, new Point2D(0,3));
 		enemy.setBehavior(new TrackBehavior(enemy,player));
@@ -95,16 +95,20 @@ public class Game extends Application {
 				
 				switch(event.getCode()) {
 				case RIGHT:
-					player.moveRight();
+					if (player.getPosition().getX() + 1 < GRID_SIZE )
+						player.moveRight();
 					break;
 				case LEFT:
-					player.moveLeft();
+					if (player.getPosition().getX() - 1 >= 0)
+						player.moveLeft();
 					break;
 				case UP:
-					player.moveUp();
+					if (player.getPosition().getY() - 1 >= 0)
+						player.moveUp();
 					break;
 				case DOWN:
-					player.moveDown();
+					if (player.getPosition().getY() + 1 < GRID_SIZE)
+						player.moveDown();
 					break;
 				default:
 					break;

@@ -25,39 +25,31 @@ public class Player extends Observable implements Ship{
 	}
 	
 	public void moveUp() {
-		if (position.getY() - 1 >= 0) {
-			position = new Point2D(position.getX(),position.getY() - 1);
+		position = new Point2D(position.getX(),position.getY() - 1);
 		
-			setChanged();
-			notifyObservers();
-		}
+		setChanged();
+		notifyObservers();
 	}
 	
 	public void moveDown() {
-		if (position.getY() + 1 < Game.GRID_SIZE) {
-			position = new Point2D(position.getX(),position.getY() + 1);
+		position = new Point2D(position.getX(),position.getY() + 1);
 			
-			setChanged();
-			notifyObservers();
-		}
+		setChanged();
+		notifyObservers();
 	}
 	
 	public void moveLeft() {
-		if (position.getX() - 1 >= 0) {
-			position = new Point2D(position.getX() - 1,position.getY());
+		position = new Point2D(position.getX() - 1,position.getY());
 			
-			setChanged();
-			notifyObservers();
-		}
+		setChanged();
+		notifyObservers();
 	}
 	
 	public void moveRight() {
-		if (position.getX() + 1 < Game.GRID_SIZE) {
-			position = new Point2D(position.getX() + 1,position.getY());
+		position = new Point2D(position.getX() + 1,position.getY());
 			
-			setChanged();
-			notifyObservers();
-		}
+		setChanged();
+		notifyObservers();
 	}
 	
 	public Point2D getPosition() {
