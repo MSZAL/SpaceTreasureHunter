@@ -91,33 +91,44 @@ public class Game extends Application {
 
 			@Override
 			public void handle(KeyEvent event) {
+				double playerX = player.getPosition().getX();
+				double playerY = player.getPosition().getY();
+				
 				switch(event.getCode()) {
 				case RIGHT:
-					if (player.getPosition().getX() + 1 < GRID_SIZE ) {
-						spaceMap.setInhabitant(Inhabitant.EMPTY, enemy.getPosition());
-						spaceMap.setInhabitant(Inhabitant.EMPTY, player.getPosition());
-						player.moveRight();
+					if (playerX + 1 < GRID_SIZE) {
+						if (spaceMap.getInhabitant(new Point2D(playerX + 1, playerY)) != Inhabitant.PLANET) {
+							spaceMap.setInhabitant(Inhabitant.EMPTY, enemy.getPosition());
+							spaceMap.setInhabitant(Inhabitant.EMPTY, player.getPosition());
+							player.moveRight();
+						}
 					}
 					break;
 				case LEFT:
-					if (player.getPosition().getX() - 1 >= 0) {
-						spaceMap.setInhabitant(Inhabitant.EMPTY, enemy.getPosition());
-						spaceMap.setInhabitant(Inhabitant.EMPTY, player.getPosition());
-						player.moveLeft();
+					if (playerX - 1 >= 0) {
+						if (spaceMap.getInhabitant(new Point2D(playerX - 1, playerY)) != Inhabitant.PLANET) {
+							spaceMap.setInhabitant(Inhabitant.EMPTY, enemy.getPosition());
+							spaceMap.setInhabitant(Inhabitant.EMPTY, player.getPosition());
+							player.moveLeft();
+						}
 					}
 					break;
 				case UP:
-					if (player.getPosition().getY() - 1 >= 0) {
-						spaceMap.setInhabitant(Inhabitant.EMPTY, enemy.getPosition());
-						spaceMap.setInhabitant(Inhabitant.EMPTY, player.getPosition());
-						player.moveUp();
+					if (playerY - 1 >= 0) {
+						if (spaceMap.getInhabitant(new Point2D(playerX, playerY - 1)) != Inhabitant.PLANET) {
+							spaceMap.setInhabitant(Inhabitant.EMPTY, enemy.getPosition());
+							spaceMap.setInhabitant(Inhabitant.EMPTY, player.getPosition());
+							player.moveUp();
+						}
 					}
 					break;
 				case DOWN:
-					if (player.getPosition().getY() + 1 < GRID_SIZE) {
-						spaceMap.setInhabitant(Inhabitant.EMPTY, enemy.getPosition());
-						spaceMap.setInhabitant(Inhabitant.EMPTY, player.getPosition());
-						player.moveDown();
+					if (playerY + 1 < GRID_SIZE) {
+						if (spaceMap.getInhabitant(new Point2D(playerX, playerY + 1)) != Inhabitant.PLANET) {
+							spaceMap.setInhabitant(Inhabitant.EMPTY, enemy.getPosition());
+							spaceMap.setInhabitant(Inhabitant.EMPTY, player.getPosition());
+							player.moveDown();
+						}
 					}
 					break;
 				default:
@@ -129,10 +140,12 @@ public class Game extends Application {
 				enemyImageView.setX(enemy.getPosition().getX() * SCALE);
 				enemyImageView.setY(enemy.getPosition().getY() * SCALE);
 				
+				spaceMap.setInhabitant(Inhabitant.ALIEN, enemy.getPosition());
+				
 				checkPlayer();
 				
 				spaceMap.setInhabitant(Inhabitant.PLAYER, player.getPosition());
-				spaceMap.setInhabitant(Inhabitant.ALIEN, enemy.getPosition());
+				
 				
 			}
 			
