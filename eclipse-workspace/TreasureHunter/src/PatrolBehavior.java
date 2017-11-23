@@ -13,6 +13,7 @@ public class PatrolBehavior implements Behavior {
 	
 	private SpaceMap spaceMap;
 	
+	private Point2D currentPosition;
 	private ArrayList<Point2D> path;
 	private int currentIndex;
 	private boolean forward;
@@ -20,8 +21,9 @@ public class PatrolBehavior implements Behavior {
 	public PatrolBehavior(Point2D position) {
 		spaceMap = SpaceMap.getInstance();
 		forward = true;
+		currentPosition = position;
 		
-		path = ShortestPath.bfs(position,randomPoint(position));
+		//path = ShortestPath.findShortestPath(position,randomPoint(position));
 		
 	}
 	
@@ -46,17 +48,18 @@ public class PatrolBehavior implements Behavior {
 	
 	@Override
 	public Point2D nextMove() {
-		if (currentIndex == path.size() - 1) forward = false;
-		if (currentIndex == 0)               forward = true;
-		
-		if (forward) {
-			currentIndex = currentIndex + 1;
-			return path.get(currentIndex);
-		}
-		else {
-			currentIndex = currentIndex - 1;
-			return path.get(currentIndex);
-		}
+//		if (currentIndex == path.size() - 1) forward = false;
+//		if (currentIndex == 0)               forward = true;
+//		
+//		if (forward) {
+//			currentIndex = currentIndex + 1;
+//			return path.get(currentIndex);
+//		}
+//		else {
+//			currentIndex = currentIndex - 1;
+//			return path.get(currentIndex);
+//		}
+		return currentPosition;
 	}
 
 }
