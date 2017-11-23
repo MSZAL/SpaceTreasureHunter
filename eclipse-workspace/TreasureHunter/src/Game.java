@@ -18,7 +18,7 @@ public class Game extends Application {
 	
 	public static final int GRID_SIZE = 50;
 	
-	public static final int PLANET_COUNT = 20;
+	public static final int PLANET_COUNT = 10;
 	
 	
 	private final int DIMENSION = 50;
@@ -61,15 +61,12 @@ public class Game extends Application {
 			}
 		}
 		
-		player = new Player(new Point2D (GRID_SIZE / 2, GRID_SIZE / 2), 1);
+		player = new Player(new Point2D (0,0), 1);
 		
-		Enemy enemy = new Enemy(player, new Point2D(30,30));
-		Enemy enemy2 = new Enemy(player, new Point2D(40,30));
+		Enemy enemy = new Enemy(player, new Point2D(0,3));
 		enemy.setBehavior(new TrackBehavior(enemy,player));
-		enemy2.setBehavior(new PatrolBehavior(enemy2.getPosition()));
 		
 		spaceMap.setInhabitant(Inhabitant.ALIEN, enemy.getPosition());
-		spaceMap.setInhabitant(Inhabitant.ALIEN, enemy2.getPosition());
 		
 		Image playerImage = new Image(player.getImagePath(),SCALE,SCALE,true,true);
 		ImageView playerImageView = new ImageView(playerImage);
@@ -77,21 +74,14 @@ public class Game extends Application {
 		Image enemyImage = new Image(enemy.getImagePath(),SCALE,SCALE,true,true);
 		ImageView enemyImageView = new ImageView(enemyImage);
 		
-		Image enemyImage2 = new Image(enemy2.getImagePath(),SCALE,SCALE,true,true);
-		ImageView enemyImageView2 = new ImageView(enemyImage2);
-		
 		playerImageView.setX(player.getPosition().getX() * SCALE);
 		playerImageView.setY(player.getPosition().getY() * SCALE);
 		
 		enemyImageView.setX(enemy.getPosition().getX() * SCALE);
 		enemyImageView.setY(enemy.getPosition().getY() * SCALE);
 		
-		enemyImageView2.setX(enemy2.getPosition().getX() * SCALE);
-		enemyImageView2.setY(enemy2.getPosition().getY() * SCALE);
-		
 		root.getChildren().add(playerImageView);
 		root.getChildren().add(enemyImageView);	
-		root.getChildren().add(enemyImageView2);
 		
 		primaryStage.setTitle("Space Treasure Hunter");
 		primaryStage.setScene(scene);
@@ -102,7 +92,6 @@ public class Game extends Application {
 			@Override
 			public void handle(KeyEvent event) {
 				spaceMap.setInhabitant(Inhabitant.EMPTY, enemy.getPosition());
-				spaceMap.setInhabitant(Inhabitant.EMPTY, enemy2.getPosition());
 				
 				switch(event.getCode()) {
 				case RIGHT:
@@ -126,11 +115,7 @@ public class Game extends Application {
 				enemyImageView.setX(enemy.getPosition().getX() * SCALE);
 				enemyImageView.setY(enemy.getPosition().getY() * SCALE);
 				
-				enemyImageView2.setX(enemy2.getPosition().getX() * SCALE);
-				enemyImageView2.setY(enemy2.getPosition().getY() * SCALE);
-				
 				spaceMap.setInhabitant(Inhabitant.ALIEN, enemy.getPosition());
-				spaceMap.setInhabitant(Inhabitant.ALIEN, enemy2.getPosition());
 				
 				checkPlayer();
 			}

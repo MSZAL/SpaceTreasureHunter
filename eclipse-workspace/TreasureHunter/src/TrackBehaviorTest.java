@@ -13,7 +13,7 @@ public class TrackBehaviorTest {
 	@Test
 	public void testMoveDownSimulation () {
 		SpaceMap spaceMap = SpaceMap.getInstance();
-		spaceMap.buildMap(100, 0);
+		spaceMap.buildMap(50, 0);
 		
 		Player player = new Player(new Point2D(3,0), 0);
 		Enemy enemy = new Enemy(player, new Point2D(0,0));
@@ -21,12 +21,12 @@ public class TrackBehaviorTest {
 		TrackBehavior track = new TrackBehavior(enemy,player);
 		enemy.setBehavior(track);
 		
-		
-		assertEquals(new Point2D(1,0), track.nextMove());
 		enemy.move();
-		assertEquals(new Point2D(2,0), track.nextMove());
+		assertEquals(new Point2D(1,0), enemy.getPosition());
 		enemy.move();
-		assertEquals(new Point2D(3,0), track.nextMove());
+		assertEquals(new Point2D(2,0), enemy.getPosition());
+		enemy.move();
+		assertEquals(new Point2D(3,0), enemy.getPosition());
 	}
 	
 	//Player is above Alien => Alien moves up
@@ -34,7 +34,7 @@ public class TrackBehaviorTest {
 	@Test
 	public void testNextMoveUpSimulation () {
 		SpaceMap spaceMap = SpaceMap.getInstance();
-		spaceMap.buildMap(100, 0);
+		spaceMap.buildMap(50, 0);
 		
 		Player player = new Player(new Point2D(0,0), 0);
 		Enemy enemy = new Enemy(player, new Point2D(3,0));
@@ -42,11 +42,12 @@ public class TrackBehaviorTest {
 		TrackBehavior track = new TrackBehavior(enemy,player);
 		enemy.setBehavior(track);
 		
-		assertEquals(new Point2D(2,0), track.nextMove());
 		enemy.move();
-		assertEquals(new Point2D(1,0), track.nextMove());
+		assertEquals(new Point2D(2,0), enemy.getPosition());
 		enemy.move();
-		assertEquals(new Point2D(0,0), track.nextMove());
+		assertEquals(new Point2D(1,0), enemy.getPosition());
+		enemy.move();
+		assertEquals(new Point2D(0,0), enemy.getPosition());
 	}
 	
 	//Player is to the right of Alien => Alien moves right
@@ -54,7 +55,7 @@ public class TrackBehaviorTest {
 	@Test
 	public void testNextMoveRightSimulation () {
 		SpaceMap spaceMap = SpaceMap.getInstance();
-		spaceMap.buildMap(100, 0);
+		spaceMap.buildMap(50, 0);
 		
 		Player player = new Player(new Point2D(20,30), 0);
 		Enemy enemy = new Enemy(player, new Point2D(20,20));
@@ -62,15 +63,16 @@ public class TrackBehaviorTest {
 		TrackBehavior track = new TrackBehavior(enemy,player);
 		enemy.setBehavior(track);
 		
-		assertEquals(new Point2D(20,21), track.nextMove());
 		enemy.move();
-		assertEquals(new Point2D(20,22), track.nextMove());
+		assertEquals(new Point2D(20,21), enemy.getPosition());
 		enemy.move();
-		assertEquals(new Point2D(20,23), track.nextMove());
+		assertEquals(new Point2D(20,22), enemy.getPosition());
 		enemy.move();
-		assertEquals(new Point2D(20,24), track.nextMove());
+		assertEquals(new Point2D(20,23), enemy.getPosition());
 		enemy.move();
-		assertEquals(new Point2D(20,25), track.nextMove());
+		assertEquals(new Point2D(20,24), enemy.getPosition());
+		enemy.move();
+		assertEquals(new Point2D(20,25), enemy.getPosition());
 		
 	}
 	
@@ -79,7 +81,7 @@ public class TrackBehaviorTest {
 	@Test
 	public void testNextMoveLeftSimulation () {
 		SpaceMap spaceMap = SpaceMap.getInstance();
-		spaceMap.buildMap(100, 0);
+		spaceMap.buildMap(50, 0);
 		
 		Player player = new Player(new Point2D(20,10), 0);
 		Enemy enemy = new Enemy(player, new Point2D(20,20));
@@ -87,15 +89,16 @@ public class TrackBehaviorTest {
 		TrackBehavior track = new TrackBehavior(enemy,player);
 		enemy.setBehavior(track);
 		
-		assertEquals(new Point2D(20,19), track.nextMove());
 		enemy.move();
-		assertEquals(new Point2D(20,18), track.nextMove());
+		assertEquals(new Point2D(20,19), enemy.getPosition());
 		enemy.move();
-		assertEquals(new Point2D(20,17), track.nextMove());
+		assertEquals(new Point2D(20,18), enemy.getPosition());
 		enemy.move();
-		assertEquals(new Point2D(20,16), track.nextMove());
+		assertEquals(new Point2D(20,17), enemy.getPosition());
 		enemy.move();
-		assertEquals(new Point2D(20,15), track.nextMove());
+		assertEquals(new Point2D(20,16), enemy.getPosition());
+		enemy.move();
+		assertEquals(new Point2D(20,15), enemy.getPosition());
 	}
 	
 	//Planet in between alien & spaceship => Alien will choose to go around
@@ -103,7 +106,7 @@ public class TrackBehaviorTest {
 	@Test
 	public void testNextMoveAroundSimulation () {
 		SpaceMap spaceMap = SpaceMap.getInstance();
-		spaceMap.buildMap(100, 0);
+		spaceMap.buildMap(50, 0);
 		
 		Player player = new Player(new Point2D(20,10), 0);
 		Enemy enemy = new Enemy(player, new Point2D(19,11));
@@ -113,15 +116,16 @@ public class TrackBehaviorTest {
 		TrackBehavior track = new TrackBehavior(enemy,player);
 		enemy.setBehavior(track);
 		
-		assertEquals(new Point2D(20,11), track.nextMove());
 		enemy.move();
-		assertEquals(new Point2D(20,10), track.nextMove());
+		assertEquals(new Point2D(20,11), enemy.getPosition());
+		enemy.move();
+		assertEquals(new Point2D(20,10), enemy.getPosition());
 	}
 	
 	@Test
 	public void testNextMoveAroundSimulation2 () {
 		SpaceMap spaceMap = SpaceMap.getInstance();
-		spaceMap.buildMap(100, 0);
+		spaceMap.buildMap(50, 0);
 		
 		Player player = new Player(new Point2D(20,10), 0);
 		Enemy enemy = new Enemy(player, new Point2D(18,10));
@@ -132,19 +136,20 @@ public class TrackBehaviorTest {
 		TrackBehavior track = new TrackBehavior(enemy,player);
 		enemy.setBehavior(track);
 		
-		assertEquals(new Point2D(18,11), track.nextMove());
 		enemy.move();
-		assertEquals(new Point2D(19,11), track.nextMove());
+		assertEquals(new Point2D(18,11), enemy.getPosition());
 		enemy.move();
-		assertEquals(new Point2D(20,11), track.nextMove());
+		assertEquals(new Point2D(19,11), enemy.getPosition());
 		enemy.move();
-		assertEquals(new Point2D(20,10), track.nextMove());
+		assertEquals(new Point2D(20,11), enemy.getPosition());
+		enemy.move();
+		assertEquals(new Point2D(20,10), enemy.getPosition());
 	}
 	
 	@Test
 	public void testNextMoveAroundSimulation3 () {
 		SpaceMap spaceMap = SpaceMap.getInstance();
-		spaceMap.buildMap(100, 0);
+		spaceMap.buildMap(50, 0);
 		
 		Player player = new Player(new Point2D(18,10), 0);
 		Enemy enemy = new Enemy(player, new Point2D(20,10));
@@ -154,14 +159,15 @@ public class TrackBehaviorTest {
 		
 		TrackBehavior track = new TrackBehavior(enemy,player);
 		enemy.setBehavior(track);
-		
-		assertEquals(new Point2D(20,11), track.nextMove());
+
 		enemy.move();
-		assertEquals(new Point2D(19,11), track.nextMove());
+		assertEquals(new Point2D(20,11), enemy.getPosition());
 		enemy.move();
-		assertEquals(new Point2D(18,11), track.nextMove());
+		assertEquals(new Point2D(19,11), enemy.getPosition());
 		enemy.move();
-		assertEquals(new Point2D(18,10), track.nextMove());
+		assertEquals(new Point2D(18,11), enemy.getPosition());
+		enemy.move();
+		assertEquals(new Point2D(18,10), enemy.getPosition());
 	}
 	
 }

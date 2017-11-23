@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -6,76 +7,96 @@ import java.util.Stack;
 
 import javafx.geometry.Point2D;
 
+class depthPoint {
+	Point2D point;
+	int depth;
+	
+	depthPoint (Point2D p, int depth) {
+		this.point = p;
+		this.depth = depth;
+	}
+}
+
 public class ShortestPath {
 	
 	private static ArrayList<Point2D> getAdjList(SpaceMap spaceMap, Point2D p) {
-		ArrayList<Point2D> adjList = new ArrayList<Point2D>();
+		ArrayList<Point2D> adjList = new ArrayList<>();
 		
 		Point2D a = new Point2D(p.getX() + 1, p.getY());
 		Point2D b = new Point2D(p.getX() - 1, p.getY());
 		Point2D c = new Point2D(p.getX(), p.getY() + 1);
 		Point2D d = new Point2D(p.getX(), p.getY() - 1);
 		
-		Inhabitant ia = spaceMap.getInhabitant(a);
-		Inhabitant ib = spaceMap.getInhabitant(b);
-		Inhabitant ic = spaceMap.getInhabitant(c);
-		Inhabitant id = spaceMap.getInhabitant(d);
+		Inhabitant ia = spaceMap.getInhabitant(new Point2D(p.getX() + 1, p.getY()));
+		Inhabitant ib = spaceMap.getInhabitant(new Point2D(p.getX() - 1, p.getY()));
+		Inhabitant ic = spaceMap.getInhabitant(new Point2D(p.getX(), p.getY() + 1));
+		Inhabitant id = spaceMap.getInhabitant(new Point2D(p.getX(), p.getY() - 1));
 				
-		if (ia != null && ia.equals(Inhabitant.EMPTY)) adjList.add(a);
-		if (ib != null && ib.equals(Inhabitant.EMPTY)) adjList.add(b);
-		if (ic != null && ic.equals(Inhabitant.EMPTY)) adjList.add(c);
-		if (id != null && id.equals(Inhabitant.EMPTY)) adjList.add(d);
+		if (ia != null && ia == Inhabitant.EMPTY || ia == Inhabitant.PLAYER) adjList.add(a);
+		if (ib != null && ib == Inhabitant.EMPTY || ib == Inhabitant.PLAYER) adjList.add(b);
+		if (ic != null && ic == Inhabitant.EMPTY || ic == Inhabitant.PLAYER) adjList.add(c);
+		if (id != null && id == Inhabitant.EMPTY || id == Inhabitant.PLAYER) adjList.add(d);
 		
 		return adjList;
 	}
 	
-	public static ArrayList<Point2D> bfs(Point2D src, Point2D dest) {
+	public static ArrayList<Point2D> findShortestPath(Point2D src, Point2D dest) {
 		if (src.equals(dest))
 			return null;//
 		
 		SpaceMap spaceMap = SpaceMap.getInstance();
 		
-		ArrayList<Point2D> shortestPath = new ArrayList<Point2D>();
-		HashMap<Point2D, Boolean> visited = new HashMap<Point2D, Boolean>();
+		int[][] distMap = new int[spaceMap.dimensions][spaceMap.dimensions];
 		
-		Queue<Point2D> queue = new LinkedList<Point2D>();
-		Stack<Point2D> stack = new Stack<Point2D>();
+		for (int i = 0; i < distMap.length; i++) {
+			Arrays.fill(distMap[i], Integer.MAX_VALUE);
+		}
 		
-		queue.add(src);
+		ArrayList<Point2D> visited = new ArrayList<>();
+		Queue<depthPoint> queue = new LinkedList<>();
 		
-		visited.put(src, true);
+		ArrayList<Point2D> shortestPath = new ArrayList<>();
 		
+		queue.add(new depthPoint(dest,0));
+		visited.add(dest);
+		
+		//Constructs a distance for each cell
 		while (!queue.isEmpty()) {
-			Point2D p = queue.poll();
-			stack.push(p);
+			depthPoint p = queue.poll();
 			
-			ArrayList<Point2D> adjList = getAdjList(spaceMap, p);
+			if (p.equals(src))
+				break;
 			
-			for (Point2D v : adjList) {
-				if (!visited.containsKey(v)) {
-					queue.add(v);
-					visited.put(v, true);
-					if (v.equals(dest))
-						break;
+			distMap[(int) p.point.getY()][(int) p.point.getX()] = p.depth;
+			
+			ArrayList<Point2D> adjList = getAdjList(spaceMap, p.point);
+			
+			for (Point2D x : adjList) {
+				if (!visited.contains(x)) {
+					queue.add(new depthPoint(x,p.depth + 1));
+					visited.add(x);
 				}
-				
 			}
 		}
 		
-		Point2D p1;
-		Point2D p2 = dest;
-		//shortestPath.add(dest);
-//		
-		while (!stack.isEmpty()) {
-			p1 = stack.pop();
+		while (!src.equals(dest)) {
+			ArrayList<Point2D> adjList = getAdjList(spaceMap, src);
 			
-			if (getAdjList(spaceMap, p1).contains(p2)) {
-				shortestPath.add(0,p1);
-				p2 = p1;
-				if (p2.equals(src))
-					break;
+			Point2D next = null;
+			int min = distMap[(int) src.getY()][(int) src.getX()];
+			
+			for (Point2D p : adjList) {
+				int dist = distMap[(int) p.getY()][(int) p.getX()]; 
+				if (dist < min) {
+					min = dist;
+					next = p;
+				}
 			}
+			if (next == null)
+				break;
 			
+			src = next;
+			shortestPath.add(next);
 		}
 		
 		return shortestPath;

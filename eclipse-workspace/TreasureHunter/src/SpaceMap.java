@@ -15,7 +15,7 @@ public class SpaceMap {
 	private static SpaceMap instance;
 	private Inhabitant[][] grid;
 	private Point2D treasure;
-	
+		
 	private SpaceMap() {}
 	
 	int dimensions = 0;
