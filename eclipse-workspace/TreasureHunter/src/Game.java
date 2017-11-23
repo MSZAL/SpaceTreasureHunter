@@ -91,24 +91,34 @@ public class Game extends Application {
 
 			@Override
 			public void handle(KeyEvent event) {
-				spaceMap.setInhabitant(Inhabitant.EMPTY, enemy.getPosition());
-				
 				switch(event.getCode()) {
 				case RIGHT:
-					if (player.getPosition().getX() + 1 < GRID_SIZE )
+					if (player.getPosition().getX() + 1 < GRID_SIZE ) {
+						spaceMap.setInhabitant(Inhabitant.EMPTY, enemy.getPosition());
+						spaceMap.setInhabitant(Inhabitant.EMPTY, player.getPosition());
 						player.moveRight();
+					}
 					break;
 				case LEFT:
-					if (player.getPosition().getX() - 1 >= 0)
+					if (player.getPosition().getX() - 1 >= 0) {
+						spaceMap.setInhabitant(Inhabitant.EMPTY, enemy.getPosition());
+						spaceMap.setInhabitant(Inhabitant.EMPTY, player.getPosition());
 						player.moveLeft();
+					}
 					break;
 				case UP:
-					if (player.getPosition().getY() - 1 >= 0)
+					if (player.getPosition().getY() - 1 >= 0) {
+						spaceMap.setInhabitant(Inhabitant.EMPTY, enemy.getPosition());
+						spaceMap.setInhabitant(Inhabitant.EMPTY, player.getPosition());
 						player.moveUp();
+					}
 					break;
 				case DOWN:
-					if (player.getPosition().getY() + 1 < GRID_SIZE)
+					if (player.getPosition().getY() + 1 < GRID_SIZE) {
+						spaceMap.setInhabitant(Inhabitant.EMPTY, enemy.getPosition());
+						spaceMap.setInhabitant(Inhabitant.EMPTY, player.getPosition());
 						player.moveDown();
+					}
 					break;
 				default:
 					break;
@@ -119,9 +129,11 @@ public class Game extends Application {
 				enemyImageView.setX(enemy.getPosition().getX() * SCALE);
 				enemyImageView.setY(enemy.getPosition().getY() * SCALE);
 				
+				checkPlayer();
+				
+				spaceMap.setInhabitant(Inhabitant.PLAYER, player.getPosition());
 				spaceMap.setInhabitant(Inhabitant.ALIEN, enemy.getPosition());
 				
-				checkPlayer();
 			}
 			
 		};
