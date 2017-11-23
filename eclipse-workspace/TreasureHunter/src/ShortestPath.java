@@ -22,10 +22,10 @@ public class ShortestPath {
 	private static ArrayList<Point2D> getAdjList(SpaceMap spaceMap, Point2D p) {
 		ArrayList<Point2D> adjList = new ArrayList<>();
 		
-		Point2D a = new Point2D(p.getX() + 1, p.getY());
-		Point2D b = new Point2D(p.getX() - 1, p.getY());
-		Point2D c = new Point2D(p.getX(), p.getY() + 1);
-		Point2D d = new Point2D(p.getX(), p.getY() - 1);
+		Point2D a = new Point2D(p.getX() + 1, p.getY()); //Right
+		Point2D b = new Point2D(p.getX() - 1, p.getY()); //Left
+		Point2D c = new Point2D(p.getX(), p.getY() + 1); //Below
+		Point2D d = new Point2D(p.getX(), p.getY() - 1); //Above
 		
 		Inhabitant ia = spaceMap.getInhabitant(new Point2D(p.getX() + 1, p.getY()));
 		Inhabitant ib = spaceMap.getInhabitant(new Point2D(p.getX() - 1, p.getY()));
