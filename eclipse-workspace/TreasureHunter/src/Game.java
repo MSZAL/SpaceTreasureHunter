@@ -30,6 +30,8 @@ public class Game extends Application {
 	private Scene scene;
 	Pane root;
 	
+	Thread backgroundThread;
+	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		root = new AnchorPane();
@@ -179,7 +181,7 @@ public class Game extends Application {
 		root.getChildren().add(asteroid2.getImage());
 		
 		//Create thread for asteroids
-		Thread thread = new Thread("AsteroidThread") {
+		backgroundThread = new Thread("AsteroidThread") {
 			public void run(){
 				while(true) {
 					try {
@@ -224,7 +226,7 @@ public class Game extends Application {
 		        }
 			}
 		};
-		thread.start();
+		backgroundThread.start();
 	}
 	
 	private void checkPlayer(){
@@ -237,6 +239,9 @@ public class Game extends Application {
 	}
 	
 	private void finishDialogue(String title, String subtitle) {
+		//Stop thread
+		backgroundThread.stop();
+		
 		//Put black over the screen
 		Rectangle rect = new Rectangle(0, 0, scene.getWidth(), scene.getHeight());
 		rect.setStroke(Color.BLACK);
@@ -267,6 +272,12 @@ public class Game extends Application {
 		//Add to window
 		root.getChildren().add(loseLabel);
 		root.getChildren().add(eggLabel);
+	}
+	
+	@Override
+	public void stop(){
+		//Ensure background thread is closed when user clicks X button
+	    backgroundThread.stop();
 	}
 	
 	public static void main(String[] args) {
