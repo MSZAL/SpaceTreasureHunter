@@ -43,7 +43,7 @@ public class Game extends Application {
 		for (int y = 0; y < DIMENSION; y++) {
 			for (int x = 0; x < DIMENSION; x++) {
 				Rectangle rect = new Rectangle(x*SCALE,y*SCALE,SCALE,SCALE);
-				rect.setStroke(Color.WHITE);
+				rect.setStroke(Color.GRAY);
 				Inhabitant type = spaceMap.getInhabitant(new Point2D(x,y));
 				switch (type) {
 				case EMPTY:
@@ -248,12 +248,12 @@ public class Game extends Application {
 	
 	private void checkPlayer(){
 		Inhabitant inhabitant = spaceMap.getInhabitant(player.getPosition());
-		if(inhabitant.equals(Inhabitant.ALIEN) || inhabitant.equals(Inhabitant.ASTEROID)) {
-			finishDialogue("You Lose", "Try again some other time...");
-			stop();
-		} else if(inhabitant.equals(Inhabitant.TREASURE)) {
+		if(inhabitant.equals(Inhabitant.ALIEN)) {
+			finishDialogue("You Lose", "Enjoy living in space jail...");
+		} else if(inhabitant.equals(Inhabitant.ASTEROID)) {
+			finishDialogue("You Lose", "Maybe watch out for rocks next time...");
+		}else if(inhabitant.equals(Inhabitant.TREASURE)) {
 			finishDialogue("You Win!", "Congratulations on finding the space treasure!");
-			stop();
 		}
 	}
 	
