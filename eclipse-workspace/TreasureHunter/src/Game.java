@@ -161,7 +161,7 @@ public class Game extends Application {
 		int starter = (int) Math.floor(Math.random() * spaceMap.getDimensions());
 		Point2D asteroidSpot = new Point2D(0, starter);
 		spaceMap.setInhabitant(Inhabitant.ASTEROID, asteroidSpot);
-		Debris asteroid = new Asteroid(asteroidSpot, Direction.DOWN);
+		Debris asteroid = new Asteroid(asteroidSpot, Direction.DOWN, SCALE);
 		
 		//Create asteroid field
 		starter = (int) Math.floor(Math.random() * spaceMap.getDimensions());
@@ -172,8 +172,8 @@ public class Game extends Application {
 		spaceMap.setInhabitant(Inhabitant.ASTEROID, asteroid2spot);
 		
 		Debris asteroidField = new AsteroidCluster(fieldSpot, Direction.RIGHT);
-		Debris asteroid1 = new Asteroid(asteroid1spot, Direction.RIGHT);
-		Debris asteroid2 = new Asteroid(asteroid2spot, Direction.RIGHT);
+		Debris asteroid1 = new Asteroid(asteroid1spot, Direction.RIGHT, SCALE);
+		Debris asteroid2 = new Asteroid(asteroid2spot, Direction.RIGHT, SCALE);
 		
 		asteroidField.addAsteroid(asteroid1);
 		asteroidField.addAsteroid(asteroid2);
@@ -184,6 +184,8 @@ public class Game extends Application {
 		
 		//Create thread for asteroids
 		backgroundThread = new Thread("AsteroidThread") {
+			
+			@Override
 			public void run(){
 				while(true) {
 					try {
@@ -233,6 +235,7 @@ public class Game extends Application {
 						asteroid1.setPosition(asteroid1spot);
 						asteroid2.setPosition(asteroid2spot);
 					}
+					//checkPlayer();
 		        }
 			}
 		};
@@ -246,10 +249,11 @@ public class Game extends Application {
 		}
 	}
 	
+	//Check if player has run into obstacle
 	private void checkPlayer(){
 		Inhabitant inhabitant = spaceMap.getInhabitant(player.getPosition());
 		if(inhabitant.equals(Inhabitant.ALIEN)) {
-			finishDialogue("You Lose", "Enjoy living in space jail...");
+			finishDialogue("You Lose", "Enjoy living in alien jail...");
 		} else if(inhabitant.equals(Inhabitant.ASTEROID)) {
 			finishDialogue("You Lose", "Maybe watch out for rocks next time...");
 		}else if(inhabitant.equals(Inhabitant.TREASURE)) {
@@ -257,6 +261,7 @@ public class Game extends Application {
 		}
 	}
 	
+	//Ending game dialogue
 	private void finishDialogue(String title, String subtitle) {
 		//Stop thread
 		backgroundThread.stop();
@@ -293,9 +298,9 @@ public class Game extends Application {
 		root.getChildren().add(eggLabel);
 	}
 	
+	//Ensure background thread is closed when user clicks X button
 	@Override
 	public void stop(){
-		//Ensure background thread is closed when user clicks X button
 	    backgroundThread.stop();
 	}
 	
