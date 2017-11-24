@@ -150,7 +150,7 @@ public class Game extends Application {
 				
 				spaceMap.setInhabitant(Inhabitant.PLAYER, player.getPosition());
 				
-				
+				checkBehavior(player, enemy);
 			}
 			
 		};
@@ -204,20 +204,22 @@ public class Game extends Application {
 						Point2D asteroidSpot = new Point2D(randomX, 0);
 						asteroid.setPosition(asteroidSpot);
 					}
-				   
+					
 					//Move asteroid field
 					for(Debris chunk: asteroidField.getAsteroids()) {
 						if (spaceMap.getInhabitant(chunk.getPosition()) != Inhabitant.PLANET &&
-								spaceMap.getInhabitant(chunk.getPosition()) != Inhabitant.TREASURE)
+								spaceMap.getInhabitant(chunk.getPosition()) != Inhabitant.TREASURE) {
 							spaceMap.setInhabitant(Inhabitant.EMPTY, chunk.getPosition());
+						}
 					}
 					asteroidField.move();
 				   
 					if(spaceMap.isOnMap(asteroidField.getPosition())) {
 						for(Debris chunk: asteroidField.getAsteroids()) {
 							if (spaceMap.getInhabitant(chunk.getPosition()) != Inhabitant.PLANET &&
-								spaceMap.getInhabitant(chunk.getPosition()) != Inhabitant.TREASURE)
+								spaceMap.getInhabitant(chunk.getPosition()) != Inhabitant.TREASURE) {
 								spaceMap.setInhabitant(Inhabitant.ASTEROID, chunk.getPosition());
+							}
 						}
 					} else {
 					    int starter = (int) Math.floor(Math.random() * spaceMap.getDimensions());
@@ -237,12 +239,20 @@ public class Game extends Application {
 		backgroundThread.start();
 	}
 	
+	public void checkBehavior(Player player, Enemy enemy) {
+		if (player.getPosition().distance(enemy.getPosition()) < 8) {
+			enemy.setBehavior(new TrackBehavior(enemy, player));
+		}
+	}
+	
 	private void checkPlayer(){
 		Inhabitant inhabitant = spaceMap.getInhabitant(player.getPosition());
 		if(inhabitant.equals(Inhabitant.ALIEN) || inhabitant.equals(Inhabitant.ASTEROID)) {
 			finishDialogue("You Lose", "Try again some other time...");
+			stop();
 		} else if(inhabitant.equals(Inhabitant.TREASURE)) {
 			finishDialogue("You Win!", "Congratulations on finding the space treasure!");
+			stop();
 		}
 	}
 	
