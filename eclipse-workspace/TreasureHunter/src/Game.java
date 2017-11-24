@@ -43,7 +43,7 @@ public class Game extends Application {
 		for (int y = 0; y < DIMENSION; y++) {
 			for (int x = 0; x < DIMENSION; x++) {
 				Rectangle rect = new Rectangle(x*SCALE,y*SCALE,SCALE,SCALE);
-				rect.setStroke(Color.BLACK);
+				rect.setStroke(Color.WHITE);
 				Inhabitant type = spaceMap.getInhabitant(new Point2D(x,y));
 				switch (type) {
 				case EMPTY:
@@ -66,7 +66,9 @@ public class Game extends Application {
 		player = new Player(new Point2D (10,0), 1);
 		
 		Enemy enemy = new Enemy(player, new Point2D(0,3));
-		enemy.setBehavior(new TrackBehavior(enemy,player));
+//		enemy.setBehavior(new TrackBehavior(enemy,player));
+		enemy.setBehavior(new PatrolBehavior(enemy.position));
+		
 		
 		spaceMap.setInhabitant(Inhabitant.ALIEN, enemy.getPosition());
 		
