@@ -66,7 +66,7 @@ public class Game extends Application {
 		player = new Player(new Point2D (10,0), 1);
 		
 		Enemy enemy = new Enemy(player, new Point2D(0,3));
-//		enemy.setBehavior(new TrackBehavior(enemy,player));
+		
 		enemy.setBehavior(new PatrolBehavior(enemy.position));
 		
 		
@@ -239,6 +239,7 @@ public class Game extends Application {
 		backgroundThread.start();
 	}
 	
+	//Changes enemy behavior from patrol to tracking if in range
 	public void checkBehavior(Player player, Enemy enemy) {
 		if (player.getPosition().distance(enemy.getPosition()) < 8) {
 			enemy.setBehavior(new TrackBehavior(enemy, player));

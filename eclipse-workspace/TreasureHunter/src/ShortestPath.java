@@ -7,6 +7,16 @@ import java.util.Stack;
 
 import javafx.geometry.Point2D;
 
+/*
+ * Calculates a shortest path from a src to a dest while avoid obstacles
+ */
+
+
+
+
+/*
+ * Data structure to store a point and its distance from the destination
+ */
 class depthPoint {
 	Point2D point;
 	int depth;
@@ -19,6 +29,7 @@ class depthPoint {
 
 public class ShortestPath {
 	
+	//Gets Adj Points that are only empty or the player on the SpaceMap
 	private static ArrayList<Point2D> getAdjList(SpaceMap spaceMap, Point2D p) {
 		ArrayList<Point2D> adjList = new ArrayList<>();
 		
@@ -60,7 +71,11 @@ public class ShortestPath {
 		queue.add(new depthPoint(dest,0));
 		visited.add(dest);
 		
-		//Constructs a distance for each cell
+		/*
+		 * Visits each point and marks its distance from the destination
+		 *If the src (inital point) is found it ends as it must've calculated
+		 *the shortest path already. 
+		 */
 		while (!queue.isEmpty()) {
 			depthPoint p = queue.poll();
 			
@@ -79,6 +94,11 @@ public class ShortestPath {
 			}
 		}
 		
+		/*
+		 * Finds the shortest path of points by continually looking at the
+		 * current position's distance value and moving to a point with a
+		 * lower value 
+		 */
 		while (!src.equals(dest)) {
 			ArrayList<Point2D> adjList = getAdjList(spaceMap, src);
 			
@@ -100,7 +120,6 @@ public class ShortestPath {
 		}
 		
 		return shortestPath;
-		
 	}
 
 }
