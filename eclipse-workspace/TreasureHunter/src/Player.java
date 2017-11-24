@@ -1,4 +1,3 @@
-import java.awt.Dimension;
 import java.util.Observable;
 import javafx.geometry.Point2D;
 
