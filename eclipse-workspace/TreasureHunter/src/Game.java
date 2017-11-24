@@ -4,6 +4,7 @@ import javafx.geometry.Pos;
 import java.util.LinkedList;
 import java.util.List;
 
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -34,6 +35,7 @@ public class Game extends Application {
 	private Scene scene;
 	Pane root;
 	
+	AnimationTimer animationTimer;
 	Thread backgroundThread;
 	
 	@Override
@@ -161,6 +163,17 @@ public class Game extends Application {
 		
 		scene.setOnKeyPressed(keyHandler);
 		
+		animationTimer = new AnimationTimer() {
+
+			@Override
+			public void handle(long now) {
+				checkPlayer();
+			}
+			
+		};
+		
+		
+		
 		//Create lone asteroid
 		int starter = (int) Math.floor(Math.random() * spaceMap.getDimensions());
 		Point2D asteroidSpot = new Point2D(0, starter);
@@ -244,6 +257,7 @@ public class Game extends Application {
 			}
 		};
 		backgroundThread.start();
+		animationTimer.start();
 	}
 	
 	public void addDebris() {
@@ -272,7 +286,7 @@ public class Game extends Application {
 	//Ending game dialogue
 	private void finishDialogue(String title, String subtitle) {
 		//Stop thread
-		backgroundThread.stop();
+		stop();
 		
 		//Put black over the screen
 		Rectangle rect = new Rectangle(0, 0, scene.getWidth(), scene.getHeight());
@@ -310,6 +324,7 @@ public class Game extends Application {
 	@Override
 	public void stop(){
 	    backgroundThread.stop();
+	    animationTimer.stop();
 	}
 	
 	public static void main(String[] args) {
