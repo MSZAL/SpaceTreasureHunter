@@ -192,28 +192,34 @@ public class Game extends Application {
 						e.printStackTrace();
 					}
 				   //Move asteroid
-				   spaceMap.setInhabitant(Inhabitant.EMPTY, asteroid.getPosition());
-				   asteroid.move();
+					if (spaceMap.getInhabitant(asteroid.getPosition()) == Inhabitant.ASTEROID)
+						spaceMap.setInhabitant(Inhabitant.EMPTY, asteroid.getPosition());
+					asteroid.move();
 				   
-				   if(spaceMap.isOnMap(asteroid.getPosition())) {
-					   spaceMap.setInhabitant(Inhabitant.ASTEROID, asteroid.getPosition());
-				   } else {
-					   int randomX = (int) Math.floor(Math.random() * spaceMap.getDimensions());
-					   Point2D asteroidSpot = new Point2D(randomX, 0);
-					   asteroid.setPosition(asteroidSpot);
-				   }
+					if(spaceMap.isOnMap(asteroid.getPosition()) && spaceMap.getInhabitant(asteroid.getPosition()) != Inhabitant.PLANET
+							&& spaceMap.getInhabitant(asteroid.getPosition()) != Inhabitant.TREASURE) {
+						spaceMap.setInhabitant(Inhabitant.ASTEROID, asteroid.getPosition());
+					} else {
+						int randomX = (int) Math.floor(Math.random() * spaceMap.getDimensions());
+						Point2D asteroidSpot = new Point2D(randomX, 0);
+						asteroid.setPosition(asteroidSpot);
+					}
 				   
-				   //Move asteroid field
-				   for(Debris chunk: asteroidField.getAsteroids()) {
-					   spaceMap.setInhabitant(Inhabitant.EMPTY, chunk.getPosition());
-				   }
-				   asteroidField.move();
+					//Move asteroid field
+					for(Debris chunk: asteroidField.getAsteroids()) {
+						if (spaceMap.getInhabitant(chunk.getPosition()) != Inhabitant.PLANET &&
+								spaceMap.getInhabitant(chunk.getPosition()) != Inhabitant.TREASURE)
+							spaceMap.setInhabitant(Inhabitant.EMPTY, chunk.getPosition());
+					}
+					asteroidField.move();
 				   
-				   if(spaceMap.isOnMap(asteroidField.getPosition())) {
-					   for(Debris chunk: asteroidField.getAsteroids()) {
-						   spaceMap.setInhabitant(Inhabitant.ASTEROID, chunk.getPosition());
-					   }
-				   } else {
+					if(spaceMap.isOnMap(asteroidField.getPosition())) {
+						for(Debris chunk: asteroidField.getAsteroids()) {
+							if (spaceMap.getInhabitant(chunk.getPosition()) != Inhabitant.PLANET &&
+								spaceMap.getInhabitant(chunk.getPosition()) != Inhabitant.TREASURE)
+								spaceMap.setInhabitant(Inhabitant.ASTEROID, chunk.getPosition());
+						}
+					} else {
 					    int starter = (int) Math.floor(Math.random() * spaceMap.getDimensions());
 						Point2D fieldSpot = new Point2D(0, starter);
 						Point2D asteroid1spot = fieldSpot;
@@ -224,7 +230,7 @@ public class Game extends Application {
 						asteroidField.setPosition(fieldSpot);
 						asteroid1.setPosition(asteroid1spot);
 						asteroid2.setPosition(asteroid2spot);
-				   }
+					}
 		        }
 			}
 		};
