@@ -10,7 +10,7 @@ public class Asteroid implements Debris {
 	Direction direction;
 	ImageView image;
 	
-	private final int SCALE = 10;
+	private final int SCALE = 25;
 	
 	public Asteroid(Point2D start, Direction direction) {
 		position = start;
