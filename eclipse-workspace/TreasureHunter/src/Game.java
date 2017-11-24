@@ -36,8 +36,6 @@ public class Game extends Application {
 	
 	Thread backgroundThread;
 	
-	private List asteroidList = new LinkedList();
-	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		root = new AnchorPane();
