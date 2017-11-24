@@ -15,7 +15,7 @@ public class TrackBehaviorTest {
 		SpaceMap spaceMap = SpaceMap.getInstance();
 		spaceMap.buildMap(50, 0);
 		
-		Player player = new Player(new Point2D(3,0), 0);
+		Player player = new Player(new Point2D(3,0));
 		Enemy enemy = new Enemy(player, new Point2D(0,0));
 		
 		TrackBehavior track = new TrackBehavior(enemy,player);
@@ -36,7 +36,7 @@ public class TrackBehaviorTest {
 		SpaceMap spaceMap = SpaceMap.getInstance();
 		spaceMap.buildMap(50, 0);
 		
-		Player player = new Player(new Point2D(0,0), 0);
+		Player player = new Player(new Point2D(0,0));
 		Enemy enemy = new Enemy(player, new Point2D(3,0));
 		
 		TrackBehavior track = new TrackBehavior(enemy,player);
@@ -57,7 +57,7 @@ public class TrackBehaviorTest {
 		SpaceMap spaceMap = SpaceMap.getInstance();
 		spaceMap.buildMap(50, 0);
 		
-		Player player = new Player(new Point2D(20,30), 0);
+		Player player = new Player(new Point2D(20,30));
 		Enemy enemy = new Enemy(player, new Point2D(20,20));
 		
 		TrackBehavior track = new TrackBehavior(enemy,player);
@@ -83,7 +83,7 @@ public class TrackBehaviorTest {
 		SpaceMap spaceMap = SpaceMap.getInstance();
 		spaceMap.buildMap(50, 0);
 		
-		Player player = new Player(new Point2D(20,10), 0);
+		Player player = new Player(new Point2D(20,10));
 		Enemy enemy = new Enemy(player, new Point2D(20,20));
 		
 		TrackBehavior track = new TrackBehavior(enemy,player);
@@ -108,7 +108,7 @@ public class TrackBehaviorTest {
 		SpaceMap spaceMap = SpaceMap.getInstance();
 		spaceMap.buildMap(50, 0);
 		
-		Player player = new Player(new Point2D(20,10), 0);
+		Player player = new Player(new Point2D(20,10));
 		Enemy enemy = new Enemy(player, new Point2D(19,11));
 		
 		spaceMap.setInhabitant(Inhabitant.PLANET, new Point2D(19,10));
@@ -127,7 +127,7 @@ public class TrackBehaviorTest {
 		SpaceMap spaceMap = SpaceMap.getInstance();
 		spaceMap.buildMap(50, 0);
 		
-		Player player = new Player(new Point2D(20,10), 0);
+		Player player = new Player(new Point2D(20,10));
 		Enemy enemy = new Enemy(player, new Point2D(18,10));
 		
 		spaceMap.setInhabitant(Inhabitant.PLANET, new Point2D(18,9));
@@ -151,7 +151,7 @@ public class TrackBehaviorTest {
 		SpaceMap spaceMap = SpaceMap.getInstance();
 		spaceMap.buildMap(50, 0);
 		
-		Player player = new Player(new Point2D(18,10), 0);
+		Player player = new Player(new Point2D(18,10));
 		Enemy enemy = new Enemy(player, new Point2D(20,10));
 		
 		spaceMap.setInhabitant(Inhabitant.PLANET, new Point2D(18,9));

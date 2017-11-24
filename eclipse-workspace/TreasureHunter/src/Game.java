@@ -1,5 +1,9 @@
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
+
+import java.util.LinkedList;
+import java.util.List;
+
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -32,6 +36,8 @@ public class Game extends Application {
 	
 	Thread backgroundThread;
 	
+	private List asteroidList = new LinkedList();
+	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		root = new AnchorPane();
@@ -63,7 +69,7 @@ public class Game extends Application {
 			}
 		}
 		
-		player = new Player(new Point2D (10,0), 1);
+		player = new Player(new Point2D (10,0));
 		
 		Enemy enemy = new Enemy(player, new Point2D(0,3));
 		
@@ -240,6 +246,10 @@ public class Game extends Application {
 			}
 		};
 		backgroundThread.start();
+	}
+	
+	public void addDebris() {
+		
 	}
 	
 	//Changes enemy behavior from patrol to tracking if in range

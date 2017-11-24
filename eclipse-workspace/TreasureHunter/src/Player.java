@@ -6,17 +6,8 @@ public class Player extends Observable implements Ship{
 	Point2D position;
 	String imagePath = "/spaceship.png";
 	
-	public Player(Point2D start, int lives) {
+	public Player(Point2D start) {
 		position = start;
-		this.lives = lives;
-	}
-	
-	public int getLives() {
-		return lives;
-	}
-	
-	public void deductLife() {
-		lives--;
 	}
 	
 	public String getImagePath() {
