@@ -34,6 +34,9 @@ public class Game extends Application {
 	private final int DIMENSION = 25;
 	private final int SCALE = 25;
 	
+	private final String PLANET_PATH = "/planet.png";
+	private final String TREASURE_PATH = "/treasure.png";
+	
 	private SpaceMap spaceMap;
 	
 	private Player player;
@@ -53,24 +56,33 @@ public class Game extends Application {
 		
 		for (int y = 0; y < DIMENSION; y++) {
 			for (int x = 0; x < DIMENSION; x++) {
+				ImageView image = null;
+				
 				Rectangle rect = new Rectangle(x*SCALE,y*SCALE,SCALE,SCALE);
 				rect.setStroke(Color.GRAY);
+				rect.setFill(Color.BLACK);
 				Inhabitant type = spaceMap.getInhabitant(new Point2D(x,y));
 				switch (type) {
-				case EMPTY:
-					rect.setFill(Color.BLACK);
-					break;
-				case PLANET:
-					rect.setFill(Color.BLUE);
-					break;
-				case TREASURE:
-					rect.setFill(Color.RED);
-					break;
-				default:
-					rect.setFill(Color.GREEN); //Just denotes if invalid value is popping up
-					break;
-				}	
+					case PLANET:
+						Image planetImage = new Image(PLANET_PATH,SCALE,SCALE,true,true);
+						image = new ImageView(planetImage);
+						image.setX(x * SCALE);
+						image.setY(y * SCALE);
+						
+						break;
+					case TREASURE:
+						Image treasureImage = new Image(TREASURE_PATH,SCALE,SCALE,true,true);
+						image = new ImageView(treasureImage);
+						image.setX(x * SCALE);
+						image.setY(y * SCALE);
+						
+						break;
+					default:
+						break;
+					}	
 				root.getChildren().add(rect);
+				if(image != null)
+					root.getChildren().add(image);
 			}
 		}
 		
