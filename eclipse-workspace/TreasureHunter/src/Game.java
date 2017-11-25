@@ -25,8 +25,9 @@ public class Game extends Application {
 	public static final int GRID_SIZE = 25;
 	
 	public static final int PLANET_COUNT = 10;
-	
 	public static final int ENEMY_COUNT = 3;
+	public static final int ASTEROID_COUNT = 4;
+	
 	
 	private final int START_TRACKING = 8; //Dist from Player to Enemy to start tracking
 	
@@ -86,13 +87,15 @@ public class Game extends Application {
 		
 		player = generatePlayer();
 		ArrayList<Enemy> enemies = generateEnemies(player);
+		ArrayList<Debris> asteroids = generateAsteroids();
 		
-		ArrayList<ImageView> imageViews = generateImageViews(enemies);
+		ArrayList<ImageView> imageViews = generateImageViews(enemies, asteroids);
 		updateImageViews(enemies, imageViews);
 
 		for (ImageView iw : imageViews) {
 			root.getChildren().add(iw);
 		}
+		
 		
 		primaryStage.setTitle("Space Treasure Hunter");
 		primaryStage.setScene(scene);
@@ -168,33 +171,6 @@ public class Game extends Application {
 			}
 		};
 		
-		AsteroidBuilder builder = new AsteroidBuilder();
-		
-		//Create lone asteroid
-		int starter = (int) Math.floor(Math.random() * spaceMap.getDimensions());
-		Point2D asteroidSpot = new Point2D(starter, 0);
-		spaceMap.setInhabitant(Inhabitant.ASTEROID, asteroidSpot);
-		Debris asteroid = new Asteroid(asteroidSpot, Direction.DOWN, builder.buildAsteroid("SpaceRock"));
-		
-		//Create asteroid field
-		starter = (int) Math.floor(Math.random() * spaceMap.getDimensions());
-		Point2D fieldSpot = new Point2D(0, starter);
-		Point2D asteroid1spot = fieldSpot;
-		Point2D asteroid2spot = new Point2D(1, starter + 2);
-		spaceMap.setInhabitant(Inhabitant.ASTEROID, asteroid1spot);
-		spaceMap.setInhabitant(Inhabitant.ASTEROID, asteroid2spot);
-		
-		Debris asteroidField = new AsteroidCluster(fieldSpot, Direction.RIGHT);
-		Debris asteroid1 = new Asteroid(asteroid1spot, Direction.RIGHT, builder.buildAsteroid("SpaceRock"));
-		Debris asteroid2 = new Asteroid(asteroid2spot, Direction.RIGHT, builder.buildAsteroid("SpaceJunk"));
-		
-		asteroidField.addAsteroid(asteroid1);
-		asteroidField.addAsteroid(asteroid2);
-		
-		root.getChildren().add(asteroid.getSprite().getImage());
-		root.getChildren().add(asteroid1.getSprite().getImage());
-		root.getChildren().add(asteroid2.getSprite().getImage());
-		
 		//Create thread for asteroids
 		backgroundThread = new Thread("AsteroidThread") {
 			
@@ -207,60 +183,29 @@ public class Game extends Application {
 						e.printStackTrace();
 					}
 					
-				    //Move lone asteroid
-					//Remove reference to asteroid on map
-					setAsteroidToMap(asteroid, Inhabitant.EMPTY);
-					
-					//Move asteroid after reference cleared
-					asteroid.move();
-				   
-					//Set asteroid to map if conditions met, else reset its position
-					if(spaceMap.isOnMap(asteroid.getPosition())){
-						setAsteroidToMap(asteroid, Inhabitant.ASTEROID);
-					} else {
-						int random = (int) Math.floor(Math.random() * spaceMap.getDimensions());
-						asteroid.reset(random);
+					for (Debris asteroid : asteroids) {
+						setAsteroidToMap(asteroid, Inhabitant.EMPTY);
+						asteroid.move();
+						if(spaceMap.isOnMap(asteroid.getPosition())){
+							setAsteroidToMap(asteroid, Inhabitant.ASTEROID);
+						} else {
+							int random = (int) Math.floor(Math.random() * spaceMap.getDimensions());
+							asteroid.reset(random);
+						}
 					}
-					
-					//Remove all references to asteroids on map
-					setAsteroidListToMap(asteroidField.getAsteroids(), Inhabitant.EMPTY);
-					
-					//Move asteroid field after references are gone
-					asteroidField.move();
-				   
-					if(spaceMap.isOnMap(asteroidField.getPosition())) {
-						
-						//Place asteroids on map again.
-						setAsteroidListToMap(asteroidField.getAsteroids(), Inhabitant.ASTEROID);
-					} else {
-						
-						//Reset asteroids
-					    int random = (int) Math.floor(Math.random() * spaceMap.getDimensions());
-						asteroidField.reset(random);
-						
-						//Place asteroids on map again.
-						setAsteroidListToMap(asteroidField.getAsteroids(), Inhabitant.ASTEROID);
-					}
-		        }
+				}
 			}
 		};
 		backgroundThread.start();
 		animationTimer.start();
 	}
 	
-	//Set lone asteroid to map
+	//Set asteroid to map
 	private void setAsteroidToMap(Debris asteroid, Inhabitant type) {
 		Inhabitant inhabitant = spaceMap.getInhabitant(asteroid.getPosition());
 		
 		if (inhabitant != Inhabitant.PLANET && inhabitant != Inhabitant.TREASURE) {
 			spaceMap.setInhabitant(type, asteroid.getPosition());
-		}
-	}
-	
-	//Set list of asteroids to map
-	private void setAsteroidListToMap(List<Debris> asteroids, Inhabitant type) {
-		for(Debris chunk: asteroids) {
-			setAsteroidToMap(chunk, type);
 		}
 	}
 	
@@ -297,7 +242,42 @@ public class Game extends Application {
 		return enemies;
 	}
 	
-	private ArrayList<ImageView> generateImageViews(ArrayList<Enemy> enemies) {
+	private ArrayList<Debris> generateAsteroids() {
+		
+		ArrayList<Debris> asteroids = new ArrayList<>();
+		AsteroidBuilder builder = new AsteroidBuilder();
+		
+		//Create lone asteroids
+		for (int i = 0; i < ASTEROID_COUNT / 2; i++) {
+			int starter = (int) Math.floor(Math.random() * spaceMap.getDimensions());
+			Point2D asteroidSpot = new Point2D(starter, 0);
+			spaceMap.setInhabitant(Inhabitant.ASTEROID, asteroidSpot);
+			Debris asteroid = new Asteroid(asteroidSpot, Direction.DOWN, builder.buildAsteroid("SpaceRock"));
+			asteroids.add(asteroid);
+		}
+		
+		//Create asteroid field
+		for (int i = 0; i < ASTEROID_COUNT / 4; i++) {
+			int starter = (int) Math.floor(Math.random() * spaceMap.getDimensions());
+			Point2D fieldSpot = new Point2D(0, starter);
+			Point2D asteroid1spot = fieldSpot;
+			Point2D asteroid2spot = new Point2D(1, starter + 2);
+			spaceMap.setInhabitant(Inhabitant.ASTEROID, asteroid1spot);
+			spaceMap.setInhabitant(Inhabitant.ASTEROID, asteroid2spot);
+			
+			Debris asteroidField = new AsteroidCluster(fieldSpot, Direction.RIGHT);
+			Debris asteroid1 = new Asteroid(asteroid1spot, Direction.RIGHT, builder.buildAsteroid("SpaceRock"));
+			Debris asteroid2 = new Asteroid(asteroid2spot, Direction.RIGHT, builder.buildAsteroid("SpaceJunk"));
+			
+			asteroidField.addAsteroid(asteroid1);
+			asteroidField.addAsteroid(asteroid2);
+			
+			asteroids.add(asteroidField);
+		}
+		return asteroids;
+	}
+	
+	private ArrayList<ImageView> generateImageViews(ArrayList<Enemy> enemies, ArrayList<Debris> asteroids) {
 		ArrayList<ImageView> imageViews = new ArrayList<>();
 		
 		Image playerImage = new Image(player.getImagePath(),SCALE,SCALE,true,true);
@@ -306,6 +286,18 @@ public class Game extends Application {
 		for (Enemy e : enemies) {
 			Image enemyImage = new Image(e.getImagePath(),SCALE,SCALE,true,true);
 			imageViews.add(new ImageView(enemyImage));
+		}
+		
+		for (Debris a : asteroids) {
+			if (a instanceof AsteroidCluster) {
+				AsteroidCluster as = (AsteroidCluster) a;
+				for (Debris b : as.getAsteroids()) {
+					imageViews.add(b.getSprite().getImage());
+				}
+			}
+			else {
+				imageViews.add(a.getSprite().getImage());
+			}
 		}
 		
 		return imageViews;
