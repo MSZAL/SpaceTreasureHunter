@@ -2,7 +2,6 @@ import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
@@ -31,7 +30,6 @@ public class Game extends Application {
 	
 	private final int START_TRACKING = 8;
 	
-	private final int DIMENSION = 25;
 	private final int SCALE = 25;
 	
 	private final String PLANET_PATH = "/planet.png";
@@ -49,13 +47,13 @@ public class Game extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		root = new AnchorPane();
-		scene = new Scene(root,DIMENSION*SCALE,DIMENSION*SCALE);
+		scene = new Scene(root,GRID_SIZE*SCALE,GRID_SIZE*SCALE);
 	
 		spaceMap = SpaceMap.getInstance();
 		spaceMap.buildMap(GRID_SIZE, PLANET_COUNT);
 		
-		for (int y = 0; y < DIMENSION; y++) {
-			for (int x = 0; x < DIMENSION; x++) {
+		for (int y = 0; y < GRID_SIZE; y++) {
+			for (int x = 0; x < GRID_SIZE; x++) {
 				ImageView image = null;
 				
 				Rectangle rect = new Rectangle(x*SCALE,y*SCALE,SCALE,SCALE);
