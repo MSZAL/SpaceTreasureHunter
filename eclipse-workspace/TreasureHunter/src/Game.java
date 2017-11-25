@@ -91,11 +91,6 @@ public class Game extends Application {
 		EventHandler<KeyEvent> keyHandler = new EventHandler<KeyEvent>() {
 
 			@Override
-			/*
-			 * Event handler will ensure player is moving onto valid positions
-			 * as well as update positions for the player and enemies and
-			 * check win/lose conditions.
-			 */
 			public void handle(KeyEvent event) {
 				double playerX = player.getPosition().getX();
 				double playerY = player.getPosition().getY();
@@ -139,7 +134,6 @@ public class Game extends Application {
 				updateImageViews(enemies, imageViews);
 				setPosition(enemies);
 				
-				//Checks to see if an enemy is within START_TRACKING range of Player
 				for (Enemy e : enemies) {
 					checkBehavior(player, e);
 				}
@@ -149,7 +143,6 @@ public class Game extends Application {
 		
 		scene.setOnKeyPressed(keyHandler);
 		
-		//Will constantly check to see if player has collided with Asteroids
 		animationTimer = new AnimationTimer() {
 
 			@Override
