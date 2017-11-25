@@ -305,6 +305,7 @@ public class Game extends Application {
 		}
 	}
 	
+	// Used in EventHandler for updating positions for the SpaceMap
 	private void clearPositions(ArrayList<Enemy> enemies) {
 		spaceMap.setInhabitant(Inhabitant.EMPTY, player.getPosition());
 		
@@ -313,6 +314,7 @@ public class Game extends Application {
 		}
 	}
 	
+	// Used in EventHandler for updating positions for the SpaceMap
 	private void setPosition(ArrayList<Enemy> enemies) {
 		
 		for (Enemy e : enemies) {
