@@ -12,12 +12,16 @@ public abstract class AsteroidSprite {
 	
 	public void setPosition(Point2D position) {
 		image.setX(position.getX() * scale);
-		image.setY(position.getY());
+		image.setY(position.getY() * scale);
 		
 		if(rotateable) {
 			rotation += 10;
 			image.setRotate(rotation);
 		}
+	}
+	
+	public ImageView getImage() {
+		return image;
 	}
 	
 

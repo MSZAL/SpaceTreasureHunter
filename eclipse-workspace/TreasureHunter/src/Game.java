@@ -172,13 +172,13 @@ public class Game extends Application {
 			
 		};
 		
-		
+		AsteroidBuilder builder = new AsteroidBuilder();
 		
 		//Create lone asteroid
 		int starter = (int) Math.floor(Math.random() * spaceMap.getDimensions());
 		Point2D asteroidSpot = new Point2D(0, starter);
 		spaceMap.setInhabitant(Inhabitant.ASTEROID, asteroidSpot);
-		Debris asteroid = new Asteroid(asteroidSpot, Direction.DOWN, SCALE);
+		Debris asteroid = new Asteroid(asteroidSpot, Direction.DOWN, builder.buildAsteroid("SpaceRock"));
 		
 		//Create asteroid field
 		starter = (int) Math.floor(Math.random() * spaceMap.getDimensions());
@@ -189,15 +189,15 @@ public class Game extends Application {
 		spaceMap.setInhabitant(Inhabitant.ASTEROID, asteroid2spot);
 		
 		Debris asteroidField = new AsteroidCluster(fieldSpot, Direction.RIGHT);
-		Debris asteroid1 = new Asteroid(asteroid1spot, Direction.RIGHT, SCALE);
-		Debris asteroid2 = new Asteroid(asteroid2spot, Direction.RIGHT, SCALE);
+		Debris asteroid1 = new Asteroid(asteroid1spot, Direction.RIGHT, builder.buildAsteroid("SpaceRock"));
+		Debris asteroid2 = new Asteroid(asteroid2spot, Direction.RIGHT, builder.buildAsteroid("SpaceJunk"));
 		
 		asteroidField.addAsteroid(asteroid1);
 		asteroidField.addAsteroid(asteroid2);
 		
-		root.getChildren().add(asteroid.getImage());
-		root.getChildren().add(asteroid1.getImage());
-		root.getChildren().add(asteroid2.getImage());
+		root.getChildren().add(asteroid.getSprite().getImage());
+		root.getChildren().add(asteroid1.getSprite().getImage());
+		root.getChildren().add(asteroid2.getSprite().getImage());
 		
 		//Create thread for asteroids
 		backgroundThread = new Thread("AsteroidThread") {
