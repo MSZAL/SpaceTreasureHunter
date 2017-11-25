@@ -15,6 +15,8 @@ public interface Debris {
 	Point2D getPosition();
 	void move();
 	
+	void reset(int offset);
+	
 	void setDirection(Direction direction);
 
 	AsteroidSprite getSprite();

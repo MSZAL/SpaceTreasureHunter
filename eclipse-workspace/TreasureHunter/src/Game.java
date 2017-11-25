@@ -176,7 +176,7 @@ public class Game extends Application {
 		
 		//Create lone asteroid
 		int starter = (int) Math.floor(Math.random() * spaceMap.getDimensions());
-		Point2D asteroidSpot = new Point2D(0, starter);
+		Point2D asteroidSpot = new Point2D(starter, 0);
 		spaceMap.setInhabitant(Inhabitant.ASTEROID, asteroidSpot);
 		Debris asteroid = new Asteroid(asteroidSpot, Direction.DOWN, builder.buildAsteroid("SpaceRock"));
 		
@@ -210,49 +210,41 @@ public class Game extends Application {
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
-				   //Move asteroid
-					if (spaceMap.getInhabitant(asteroid.getPosition()) == Inhabitant.ASTEROID)
-						spaceMap.setInhabitant(Inhabitant.EMPTY, asteroid.getPosition());
+					
+				    //Move lone asteroid
+					//Remove reference to asteroid on map
+					setAsteroidToMap(asteroid, Inhabitant.EMPTY);
+					
+					//Move asteroid after reference cleared
 					asteroid.move();
 				   
-					if(spaceMap.isOnMap(asteroid.getPosition()) && spaceMap.getInhabitant(asteroid.getPosition()) != Inhabitant.PLANET
-							&& spaceMap.getInhabitant(asteroid.getPosition()) != Inhabitant.TREASURE) {
-						spaceMap.setInhabitant(Inhabitant.ASTEROID, asteroid.getPosition());
+					//Set asteroid to map if conditions met, else reset its position
+					if(spaceMap.isOnMap(asteroid.getPosition())){
+						setAsteroidToMap(asteroid, Inhabitant.ASTEROID);
 					} else {
-						int randomX = (int) Math.floor(Math.random() * spaceMap.getDimensions());
-						Point2D asteroidSpot = new Point2D(randomX, 0);
-						asteroid.setPosition(asteroidSpot);
+						int random = (int) Math.floor(Math.random() * spaceMap.getDimensions());
+						asteroid.reset(random);
 					}
 					
-					//Move asteroid field
-					for(Debris chunk: asteroidField.getAsteroids()) {
-						if (spaceMap.getInhabitant(chunk.getPosition()) != Inhabitant.PLANET &&
-								spaceMap.getInhabitant(chunk.getPosition()) != Inhabitant.TREASURE) {
-							spaceMap.setInhabitant(Inhabitant.EMPTY, chunk.getPosition());
-						}
-					}
+					//Remove all references to asteroids on map
+					setAsteroidListToMap(asteroidField.getAsteroids(), Inhabitant.EMPTY);
+					
+					//Move asteroid field after references are gone
 					asteroidField.move();
 				   
 					if(spaceMap.isOnMap(asteroidField.getPosition())) {
-						for(Debris chunk: asteroidField.getAsteroids()) {
-							if (spaceMap.getInhabitant(chunk.getPosition()) != Inhabitant.PLANET &&
-								spaceMap.getInhabitant(chunk.getPosition()) != Inhabitant.TREASURE) {
-								spaceMap.setInhabitant(Inhabitant.ASTEROID, chunk.getPosition());
-							}
-						}
-					} else {
-					    int starter = (int) Math.floor(Math.random() * spaceMap.getDimensions());
-						Point2D fieldSpot = new Point2D(0, starter);
-						Point2D asteroid1spot = fieldSpot;
-						Point2D asteroid2spot = new Point2D(1, starter + 2);
-						spaceMap.setInhabitant(Inhabitant.ASTEROID, asteroid1spot);
-						spaceMap.setInhabitant(Inhabitant.ASTEROID, asteroid2spot);
 						
-						asteroidField.setPosition(fieldSpot);
-						asteroid1.setPosition(asteroid1spot);
-						asteroid2.setPosition(asteroid2spot);
+						//Place asteroids on map again.
+						setAsteroidListToMap(asteroidField.getAsteroids(), Inhabitant.ASTEROID);
+					} else {
+						
+						//Reset asteroids
+					    int random = (int) Math.floor(Math.random() * spaceMap.getDimensions());
+						asteroidField.reset(random);
+						
+						//Place asteroids on map again.
+						setAsteroidListToMap(asteroidField.getAsteroids(), Inhabitant.ASTEROID);
 					}
-					//checkPlayer();
 		        }
 			}
 		};
@@ -260,8 +252,20 @@ public class Game extends Application {
 		animationTimer.start();
 	}
 	
-	public void addDebris() {
+	//Set lone asteroid to map
+	private void setAsteroidToMap(Debris asteroid, Inhabitant type) {
+		Inhabitant inhabitant = spaceMap.getInhabitant(asteroid.getPosition());
 		
+		if (inhabitant != Inhabitant.PLANET && inhabitant != Inhabitant.TREASURE) {
+			spaceMap.setInhabitant(type, asteroid.getPosition());
+		}
+	}
+	
+	//Set list of asteroids to map
+	private void setAsteroidListToMap(List<Debris> asteroids, Inhabitant type) {
+		for(Debris chunk: asteroids) {
+			setAsteroidToMap(chunk, type);
+		}
 	}
 	
 	//Changes enemy behavior from patrol to tracking if in range
