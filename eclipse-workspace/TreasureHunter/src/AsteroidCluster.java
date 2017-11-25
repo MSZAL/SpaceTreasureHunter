@@ -2,7 +2,6 @@ import java.util.List;
 import java.util.LinkedList;
 
 import javafx.geometry.Point2D;
-import javafx.scene.image.ImageView;
 
 public class AsteroidCluster implements Debris {
 	private Point2D position;
@@ -50,7 +49,7 @@ public class AsteroidCluster implements Debris {
 		return asteroids;
 	}
 	
-	public ImageView getImage() {
+	public AsteroidSprite getSprite() {
 		return null; //No image for clusters
 	}
 }

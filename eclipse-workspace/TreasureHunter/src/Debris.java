@@ -1,7 +1,6 @@
 import java.util.List;
 
 import javafx.geometry.Point2D;
-import javafx.scene.image.ImageView;
 
 enum Direction{
 	DOWN,
@@ -18,7 +17,7 @@ public interface Debris {
 	
 	void setDirection(Direction direction);
 
-	ImageView getImage();
+	AsteroidSprite getSprite();
 	
 	List<Debris> getAsteroids();
 
