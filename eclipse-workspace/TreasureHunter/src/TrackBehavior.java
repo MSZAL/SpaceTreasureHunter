@@ -29,5 +29,4 @@ public class TrackBehavior implements Behavior {
 		
 		return path.get(0);
 	}
-
 }

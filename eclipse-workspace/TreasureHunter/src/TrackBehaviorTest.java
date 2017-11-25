@@ -7,10 +7,9 @@ import javafx.geometry.Point2D;
 
 
 public class TrackBehaviorTest {
-
-	//Player is below Alien  => Alien moves down
 	
 	@Test
+	//Player is below Alien  => Alien moves down
 	public void testMoveDownSimulation () {
 		SpaceMap spaceMap = SpaceMap.getInstance();
 		spaceMap.buildMap(50, 0);
@@ -29,9 +28,9 @@ public class TrackBehaviorTest {
 		assertEquals(new Point2D(3,0), enemy.getPosition());
 	}
 	
-	//Player is above Alien => Alien moves up
 	
 	@Test
+	//Player is above Alien => Alien moves up
 	public void testNextMoveUpSimulation () {
 		SpaceMap spaceMap = SpaceMap.getInstance();
 		spaceMap.buildMap(50, 0);
@@ -50,9 +49,8 @@ public class TrackBehaviorTest {
 		assertEquals(new Point2D(0,0), enemy.getPosition());
 	}
 	
-	//Player is to the right of Alien => Alien moves right
-	
 	@Test
+	//Player is to the right of Alien => Alien moves right
 	public void testNextMoveRightSimulation () {
 		SpaceMap spaceMap = SpaceMap.getInstance();
 		spaceMap.buildMap(50, 0);
@@ -73,12 +71,10 @@ public class TrackBehaviorTest {
 		assertEquals(new Point2D(20,24), enemy.getPosition());
 		enemy.move();
 		assertEquals(new Point2D(20,25), enemy.getPosition());
-		
 	}
 	
-	//Player is to the left of Alien => Alien moves right
-	
 	@Test
+	//Player is to the left of Alien => Alien moves right
 	public void testNextMoveLeftSimulation () {
 		SpaceMap spaceMap = SpaceMap.getInstance();
 		spaceMap.buildMap(50, 0);
@@ -101,9 +97,8 @@ public class TrackBehaviorTest {
 		assertEquals(new Point2D(20,15), enemy.getPosition());
 	}
 	
-	//Planet in between alien & spaceship => Alien will choose to go around
-	
 	@Test
+	//Planet in between alien & spaceship => Alien will choose to go around
 	public void testNextMoveAroundSimulation () {
 		SpaceMap spaceMap = SpaceMap.getInstance();
 		spaceMap.buildMap(50, 0);
@@ -123,6 +118,7 @@ public class TrackBehaviorTest {
 	}
 	
 	@Test
+	//Pattern where alien must go around to reach player
 	public void testNextMoveAroundSimulation2 () {
 		SpaceMap spaceMap = SpaceMap.getInstance();
 		spaceMap.buildMap(50, 0);
@@ -147,6 +143,7 @@ public class TrackBehaviorTest {
 	}
 	
 	@Test
+	//Pattern where alien must go around to reach player
 	public void testNextMoveAroundSimulation3 () {
 		SpaceMap spaceMap = SpaceMap.getInstance();
 		spaceMap.buildMap(50, 0);
@@ -169,5 +166,4 @@ public class TrackBehaviorTest {
 		enemy.move();
 		assertEquals(new Point2D(18,10), enemy.getPosition());
 	}
-	
 }

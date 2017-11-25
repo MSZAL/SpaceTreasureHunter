@@ -20,8 +20,7 @@ public class AsteroidTest {
 		asteroid.move();
 		asteroid.move();
 		
-		assertEquals(new Point2D(0, 95), asteroid.getPosition());
-		
+		assertEquals(new Point2D(0, 95), asteroid.getPosition());	
 	}
 	
 	@Test
@@ -39,7 +38,6 @@ public class AsteroidTest {
 		asteroid.move();
 		
 		assertEquals(new Point2D(0, 5), asteroid.getPosition());
-		
 	}
 	
 	
@@ -57,8 +55,7 @@ public class AsteroidTest {
 		asteroid.move();
 		asteroid.move();
 		
-		assertEquals(new Point2D(95, 0), asteroid.getPosition());
-		
+		assertEquals(new Point2D(95, 0), asteroid.getPosition());	
 	}
 	
 	@Test
@@ -75,8 +72,7 @@ public class AsteroidTest {
 		asteroid.move();
 		asteroid.move();
 		
-		assertEquals(new Point2D(5, 0), asteroid.getPosition());
-		
+		assertEquals(new Point2D(5, 0), asteroid.getPosition());	
 	}
 	
 	@Test

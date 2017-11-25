@@ -2,7 +2,6 @@ import java.util.Observable;
 import javafx.geometry.Point2D;
 
 public class Player extends Observable {
-	int lives;
 	Point2D position;
 	String imagePath = "/spaceship.png";
 	

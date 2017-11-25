@@ -8,13 +8,6 @@ import java.util.Stack;
 import javafx.geometry.Point2D;
 
 /*
- * Calculates a shortest path from a src to a dest while avoid obstacles
- */
-
-
-
-
-/*
  * Data structure to store a point and its distance from the destination
  */
 class depthPoint {
@@ -118,8 +111,6 @@ public class ShortestPath {
 			src = next;
 			shortestPath.add(next);
 		}
-		
 		return shortestPath;
 	}
-
 }

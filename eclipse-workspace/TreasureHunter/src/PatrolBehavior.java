@@ -26,8 +26,7 @@ public class PatrolBehavior implements Behavior {
 		this.position = position;
 		
 		path.add(position);
-		path = ShortestPath.findShortestPath(position,randomPoint(position));
-		
+		path = ShortestPath.findShortestPath(position,randomPoint(position));	
 	}
 	
 	private Point2D randomPoint(Point2D location) {
@@ -49,7 +48,6 @@ public class PatrolBehavior implements Behavior {
 			else if (spaceMap.getInhabitant(new Point2D (position.getX(),position.getY() - randDist)) == Inhabitant.EMPTY)
 				randomPoint = new Point2D(position.getX(), position.getY() - randDist);
 		}
-		
 		return randomPoint;
 	}
 	
@@ -69,5 +67,4 @@ public class PatrolBehavior implements Behavior {
 			return path.get(currentIndex);
 		}
 	}
-
 }

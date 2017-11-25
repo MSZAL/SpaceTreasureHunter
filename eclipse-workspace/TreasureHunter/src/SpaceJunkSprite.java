@@ -11,6 +11,5 @@ public class SpaceJunkSprite extends AsteroidSprite {
 		Image picture = new Image(imagePath, 1 * scale, 1 * scale, true, true);
 		image = new ImageView(picture);
 	}
-	
 }
 

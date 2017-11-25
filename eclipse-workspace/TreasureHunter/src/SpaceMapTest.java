@@ -99,8 +99,6 @@ public class SpaceMapTest {
 		assertEquals(map.isOnMap(new Point2D(0, 24)), true);
 		
 		//Middle point
-		assertEquals(map.isOnMap(new Point2D(25/2, 25/2)), true);
-		
+		assertEquals(map.isOnMap(new Point2D(25/2, 25/2)), true);	
 	}
-
 }

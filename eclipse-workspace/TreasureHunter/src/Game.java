@@ -166,7 +166,6 @@ public class Game extends Application {
 			public void handle(long now) {
 				checkPlayer();
 			}
-			
 		};
 		
 		AsteroidBuilder builder = new AsteroidBuilder();
