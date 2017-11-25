@@ -1,8 +1,10 @@
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -25,6 +27,9 @@ public class Game extends Application {
 	
 	public static final int PLANET_COUNT = 10;
 	
+	public static final int ENEMY_COUNT = 3;
+	
+	private final int START_TRACKING = 8;
 	
 	private final int DIMENSION = 25;
 	private final int SCALE = 25;
@@ -42,7 +47,7 @@ public class Game extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		root = new AnchorPane();
 		scene = new Scene(root,DIMENSION*SCALE,DIMENSION*SCALE);
-		
+	
 		spaceMap = SpaceMap.getInstance();
 		spaceMap.buildMap(GRID_SIZE, PLANET_COUNT);
 		
@@ -69,29 +74,15 @@ public class Game extends Application {
 			}
 		}
 		
-		player = new Player(new Point2D (10,0));
+		player = generatePlayer();
+		ArrayList<Enemy> enemies = generateEnemies(player);
 		
-		Enemy enemy = new Enemy(player, new Point2D(0,3));
-		
-		enemy.setBehavior(new PatrolBehavior(enemy.position));
-		
-		
-		spaceMap.setInhabitant(Inhabitant.ALIEN, enemy.getPosition());
-		
-		Image playerImage = new Image(player.getImagePath(),SCALE,SCALE,true,true);
-		ImageView playerImageView = new ImageView(playerImage);
-		
-		Image enemyImage = new Image(enemy.getImagePath(),SCALE,SCALE,true,true);
-		ImageView enemyImageView = new ImageView(enemyImage);
-		
-		playerImageView.setX(player.getPosition().getX() * SCALE);
-		playerImageView.setY(player.getPosition().getY() * SCALE);
-		
-		enemyImageView.setX(enemy.getPosition().getX() * SCALE);
-		enemyImageView.setY(enemy.getPosition().getY() * SCALE);
-		
-		root.getChildren().add(playerImageView);
-		root.getChildren().add(enemyImageView);	
+		ArrayList<ImageView> imageViews = generateImageViews(enemies);
+		updateImageViews(enemies, imageViews);
+
+		for (ImageView iw : imageViews) {
+			root.getChildren().add(iw);
+		}
 		
 		primaryStage.setTitle("Space Treasure Hunter");
 		primaryStage.setScene(scene);
@@ -108,8 +99,7 @@ public class Game extends Application {
 				case RIGHT:
 					if (playerX + 1 < GRID_SIZE) {
 						if (spaceMap.getInhabitant(new Point2D(playerX + 1, playerY)) != Inhabitant.PLANET) {
-							spaceMap.setInhabitant(Inhabitant.EMPTY, enemy.getPosition());
-							spaceMap.setInhabitant(Inhabitant.EMPTY, player.getPosition());
+							clearPositions(enemies);
 							player.moveRight();
 						}
 					}
@@ -117,8 +107,7 @@ public class Game extends Application {
 				case LEFT:
 					if (playerX - 1 >= 0) {
 						if (spaceMap.getInhabitant(new Point2D(playerX - 1, playerY)) != Inhabitant.PLANET) {
-							spaceMap.setInhabitant(Inhabitant.EMPTY, enemy.getPosition());
-							spaceMap.setInhabitant(Inhabitant.EMPTY, player.getPosition());
+							clearPositions(enemies);
 							player.moveLeft();
 						}
 					}
@@ -126,8 +115,7 @@ public class Game extends Application {
 				case UP:
 					if (playerY - 1 >= 0) {
 						if (spaceMap.getInhabitant(new Point2D(playerX, playerY - 1)) != Inhabitant.PLANET) {
-							spaceMap.setInhabitant(Inhabitant.EMPTY, enemy.getPosition());
-							spaceMap.setInhabitant(Inhabitant.EMPTY, player.getPosition());
+							clearPositions(enemies);
 							player.moveUp();
 						}
 					}
@@ -135,8 +123,7 @@ public class Game extends Application {
 				case DOWN:
 					if (playerY + 1 < GRID_SIZE) {
 						if (spaceMap.getInhabitant(new Point2D(playerX, playerY + 1)) != Inhabitant.PLANET) {
-							spaceMap.setInhabitant(Inhabitant.EMPTY, enemy.getPosition());
-							spaceMap.setInhabitant(Inhabitant.EMPTY, player.getPosition());
+							clearPositions(enemies);
 							player.moveDown();
 						}
 					}
@@ -144,19 +131,12 @@ public class Game extends Application {
 				default:
 					break;
 				}
-				playerImageView.setX(player.getPosition().getX() * SCALE);
-				playerImageView.setY(player.getPosition().getY() * SCALE);
+				updateImageViews(enemies, imageViews);
+				setPosition(enemies);
 				
-				enemyImageView.setX(enemy.getPosition().getX() * SCALE);
-				enemyImageView.setY(enemy.getPosition().getY() * SCALE);
-				
-				spaceMap.setInhabitant(Inhabitant.ALIEN, enemy.getPosition());
-				
-				checkPlayer();
-				
-				spaceMap.setInhabitant(Inhabitant.PLAYER, player.getPosition());
-				
-				checkBehavior(player, enemy);
+				for (Enemy e : enemies) {
+					checkBehavior(player, e);
+				}
 			}
 			
 		};
@@ -264,9 +244,84 @@ public class Game extends Application {
 		
 	}
 	
+	private Player generatePlayer() {
+		Random r = new Random();
+		
+		Point2D p = new Point2D(r.nextInt(GRID_SIZE), r.nextInt(GRID_SIZE));
+		
+		while (spaceMap.getInhabitant(p) != Inhabitant.EMPTY) {
+			p = new Point2D(r.nextInt(GRID_SIZE), r.nextInt(GRID_SIZE));
+		}
+		spaceMap.setInhabitant(Inhabitant.PLAYER, p);
+		return new Player(p);
+	}
+	
+	private ArrayList<Enemy> generateEnemies(Player player) {
+		ArrayList<Enemy> enemies = new ArrayList<>();
+		
+		Random r = new Random();
+		Point2D p = new Point2D(r.nextInt(GRID_SIZE), r.nextInt(GRID_SIZE));
+		
+		for (int i = 0; i < ENEMY_COUNT; i++) {
+			
+			while (spaceMap.getInhabitant(p) != Inhabitant.EMPTY) {
+				p = new Point2D(r.nextInt(GRID_SIZE), r.nextInt(GRID_SIZE));
+			}
+			Enemy e = new Enemy(player, p);
+			e.setBehavior(new PatrolBehavior(e.position));
+			
+			spaceMap.setInhabitant(Inhabitant.ALIEN, p);
+			enemies.add(e);
+		}
+		
+		return enemies;
+	}
+	
+	private ArrayList<ImageView> generateImageViews(ArrayList<Enemy> enemies) {
+		ArrayList<ImageView> imageViews = new ArrayList<>();
+		
+		Image playerImage = new Image(player.getImagePath(),SCALE,SCALE,true,true);
+		imageViews.add(new ImageView(playerImage));
+		
+		for (Enemy e : enemies) {
+			Image enemyImage = new Image(e.getImagePath(),SCALE,SCALE,true,true);
+			imageViews.add(new ImageView(enemyImage));
+		}
+		
+		return imageViews;
+	}
+	
+	private void updateImageViews(ArrayList<Enemy> enemies, ArrayList<ImageView> imageViews) {
+		imageViews.get(0).setX(player.getPosition().getX() * SCALE);
+		imageViews.get(0).setY(player.getPosition().getY() * SCALE);
+		
+		for (int i = 0, j = 1; i < enemies.size(); i++,j++) {
+			imageViews.get(j).setX(enemies.get(i).getPosition().getX() * SCALE);
+			imageViews.get(j).setY(enemies.get(i).getPosition().getY() * SCALE);
+		}
+	}
+	
+	private void clearPositions(ArrayList<Enemy> enemies) {
+		spaceMap.setInhabitant(Inhabitant.EMPTY, player.getPosition());
+		
+		for (Enemy e : enemies) {
+			spaceMap.setInhabitant(Inhabitant.EMPTY, e.getPosition());
+		}
+	}
+	
+	private void setPosition(ArrayList<Enemy> enemies) {
+		
+		for (Enemy e : enemies) {
+			spaceMap.setInhabitant(Inhabitant.ALIEN, e.getPosition());
+		}
+		checkPlayer();
+		
+		spaceMap.setInhabitant(Inhabitant.PLAYER, player.getPosition());
+	}
+	
 	//Changes enemy behavior from patrol to tracking if in range
 	public void checkBehavior(Player player, Enemy enemy) {
-		if (player.getPosition().distance(enemy.getPosition()) < 8) {
+		if (player.getPosition().distance(enemy.getPosition()) < START_TRACKING) {
 			enemy.setBehavior(new TrackBehavior(enemy, player));
 		}
 	}
