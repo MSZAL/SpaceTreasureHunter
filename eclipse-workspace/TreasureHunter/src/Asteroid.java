@@ -34,6 +34,7 @@ public class Asteroid implements Debris {
 	}
 	
 	public void move() {
+		//Check direction of movement and calculate new position
 		if(direction.equals(Direction.UP))
 			position = new Point2D(position.getX(), position.getY() - 1);	
 		else if (direction.equals(Direction.DOWN))

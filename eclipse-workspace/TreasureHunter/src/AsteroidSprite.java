@@ -14,6 +14,7 @@ public abstract class AsteroidSprite {
 		image.setX(position.getX() * scale);
 		image.setY(position.getY() * scale);
 		
+		//Rotate asteroid so it looks like it's tumbling through space
 		if(rotateable) {
 			rotation += 10;
 			image.setRotate(rotation);
