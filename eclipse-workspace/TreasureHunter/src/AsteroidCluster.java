@@ -4,11 +4,13 @@ import java.util.LinkedList;
 import javafx.geometry.Point2D;
 
 public class AsteroidCluster implements Debris {
+	private Point2D startPosition;
 	private Point2D position;
 	List<Debris> asteroids = new LinkedList<Debris>();
 	Direction direction;
 	
 	public AsteroidCluster(Point2D start, Direction direction) {
+		startPosition = start;
 		position = start;
 		this.direction = direction;
 	}
@@ -19,6 +21,7 @@ public class AsteroidCluster implements Debris {
 	
 	public void setPosition(Point2D position) {
 		this.position = position;
+		this.startPosition = position;
 	}
 
 	public void move() {
@@ -33,6 +36,18 @@ public class AsteroidCluster implements Debris {
 			
 		for(Debris asteroid : asteroids) {
 			asteroid.move();
+		}
+	}
+	
+	//Reset the position to the start with an offset value
+	public void reset(int offset) {
+		if(direction.equals(Direction.UP) || direction.equals(Direction.DOWN))
+			position = new Point2D(offset, startPosition.getY());	
+		else if(direction.equals(Direction.LEFT) || (direction.equals(Direction.RIGHT)))
+			position = new Point2D(startPosition.getX(), offset);
+		
+		for(Debris asteroid : asteroids) {
+			asteroid.reset(offset);
 		}
 	}
 	
