@@ -4,11 +4,11 @@ import javafx.geometry.Point2D;
 
 public class TrackBehavior implements Behavior {
 
-	Ship enemy;
-	Ship player;
+	Enemy enemy;
+	Player player;
 	SpaceMap spaceMap;
 	
-	public TrackBehavior(Ship enemy, Ship player) {
+	public TrackBehavior(Enemy enemy, Player player) {
 		this.enemy = enemy;
 		this.player = player;
 		this.spaceMap = SpaceMap.getInstance();

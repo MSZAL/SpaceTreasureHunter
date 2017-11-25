@@ -5,7 +5,7 @@ import javax.annotation.PostConstruct;
 
 import javafx.geometry.Point2D;
 
-public class Enemy implements Ship, Observer{
+public class Enemy implements Observer{
 	
 	Behavior behavior;
 	Point2D position;
@@ -29,32 +29,10 @@ public class Enemy implements Ship, Observer{
 		}
 	}
 
-	@Override
-	public void moveUp() {
-		position = new Point2D(position.getX(), position.getY() - 1);	
-	}
-
-	@Override
-	public void moveDown() {
-		position = new Point2D(position.getX(), position.getY() + 1);
-	}
-
-	@Override
-	public void moveLeft() {
-		position = new Point2D(position.getX() - 1, position.getY());
-	}
-
-	@Override
-	public void moveRight() {
-		position = new Point2D(position.getX() + 1, position.getY());
-	}
-
-	@Override
 	public Point2D getPosition() {
 		return position;
 	}
 
-	@Override
 	public String getImagePath() {
 		return imagePath;
 	}
