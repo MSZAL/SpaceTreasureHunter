@@ -57,7 +57,7 @@ public class ShortestPath {
 		
 		SpaceMap spaceMap = SpaceMap.getInstance();
 		
-		int[][] distMap = new int[spaceMap.dimensions][spaceMap.dimensions];
+		int[][] distMap = new int[spaceMap.getDimensions()][spaceMap.getDimensions()];
 		
 		for (int i = 0; i < distMap.length; i++) {
 			Arrays.fill(distMap[i], Integer.MAX_VALUE);

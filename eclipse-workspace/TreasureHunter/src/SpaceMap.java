@@ -18,7 +18,7 @@ public class SpaceMap {
 		
 	private SpaceMap() {}
 	
-	int dimensions = 0;
+	private int dimensions = 0;
 	
 	//Get singleton
 	public static SpaceMap getInstance() {
