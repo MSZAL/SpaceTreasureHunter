@@ -28,7 +28,7 @@ public class Game extends Application {
 	
 	public static final int ENEMY_COUNT = 3;
 	
-	private final int START_TRACKING = 8;
+	private final int START_TRACKING = 8; //Dist from Player to Enemy to start tracking
 	
 	private final int SCALE = 25;
 	
@@ -98,6 +98,11 @@ public class Game extends Application {
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		
+		/*
+		 * Event handler will ensure player is moving onto valid positions
+		 * as well as update positions for the player and enemies and
+		 * check win/lose conditions.
+		 */
 		EventHandler<KeyEvent> keyHandler = new EventHandler<KeyEvent>() {
 
 			@Override
@@ -144,6 +149,7 @@ public class Game extends Application {
 				updateImageViews(enemies, imageViews);
 				setPosition(enemies);
 				
+				//Checks to see if an enemy is within START_TRACKING range of Player
 				for (Enemy e : enemies) {
 					checkBehavior(player, e);
 				}
@@ -153,6 +159,7 @@ public class Game extends Application {
 		
 		scene.setOnKeyPressed(keyHandler);
 		
+		//Will check to see if player has collided with Asteroids
 		animationTimer = new AnimationTimer() {
 
 			@Override
