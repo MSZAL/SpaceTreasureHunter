@@ -29,7 +29,8 @@ public class Asteroid implements Debris {
 	}
 	
 	public void setDirection(Direction direction) {
-		this.direction = direction;
+		if(direction != null)
+			this.direction = direction;
 	}
 	
 	public void move() {
